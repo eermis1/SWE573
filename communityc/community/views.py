@@ -12,8 +12,8 @@ def homepage(request):
     return render(request, "index.html", {"all_communities" : all_communities} ) #context --> all communities.
 
 def community_detail (request,community_id):
-    try:
-        community = Community.objects.get(pk=community_id)
-    except Community.DoesNotExist:
-        raise  Http404("Community Does Not Exist")
+    #try:
+    community = Community.objects.get(pk=community_id)
+    #except Community.DoesNotExist:
+ #       raise  Http404("Community Does Not Exist")
     return render(request, "detail.html", {"community" : community} )
