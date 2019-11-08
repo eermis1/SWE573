@@ -1,0 +1,11 @@
+<h1>Welcome To CommunityC Homepage<h1>
+
+{%  if all_communities   %}
+<ul>
+    {% for community in all_communities %}
+    <li><a href = "/homepage/{{ community.id }}"> {{ community.community_name}} </a></li>
+    {% endfor %}
+</ul>
+{% else %}
+    <h2>You have not any community</h2>
+{% end if %}
