@@ -1,16 +1,15 @@
-{% extends base.html %}
+{% extends 'Overall/base.html' %} <!-- include base template into index page-->
 {% block body %}
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href = "{% static 'style.css' %}" />  <!-- buradaki static, static klasörü anlamındaymış-->
-  
-<h1>Welcome To CommunityC Homepage</h1>
-{% if all_communities %}
-<ul>
-    {% for community in all_communities %}
-    <li><a href = "/homepage/{{ community.id }}"> {{ community.community_name}} </a></li>
-    {% endfor %}
-</ul>
-{% else %}
-    <h2>You have not any community</h2>
-{% endif %}
+    <h1>Welcome To CommunityC Homepage</h1>
+    {% if all_communities %}
+    <ul>
+        {% for community in all_communities %}
+        <li><a href = "/homepage/{{ community.id }}"> {{ community.community_name}} </a></li>
+        {% endfor %}
+    </ul>
+    {% else %}
+        <h2>You have not any community</h2>
+    {% endif %}
 {% endblock %}

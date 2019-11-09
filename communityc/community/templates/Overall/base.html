@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}CommunityC Homepage{% endblock %}</title> <!-- Page Title Can Changed Via Block Title Code-->
+    {% load staticfiles %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="shortcut icon" type="image/png" href="{%  static 'favicon.ico' %}"/>
+</head>
+
+<body>
+ <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <!-- Header -->
+        <div class="navbar-header">
+             <a class="navbar-brand" href="#">CommunityCenter</a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+
+        <!-- Items -->
+        <div class="collapse navbar-collapse" id="topNavBar">
+            <ul class="nav navbar-nav">
+                <li class="#"><a href="#"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp; Home</a></li>
+                <li class="#"><a href="#"><span class="glyphicon glyphicon-glass" aria-hidden="true"></span>&nbsp; Communities</a></li>
+                <li class="#"><a href="#"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>&nbsp; Posts</a></li>
+                 <li>
+                    <a href="#">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp; Add Community
+                    </a>
+                </li>
+                 <li>
+                    <a href="#">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp; Add Post
+                    </a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                 <li>
+                    <a href="#">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp; Profile
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp; Logout
+                    </a>
+                </li>
+                
+            </ul>
+            <form class="navbar-form navbar-right" role="search" method="get" action="">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="q" value="">
+                </div>
+                <button type="submit" class="btn btn-default">Search</button>
+            </form>
+            
+        </div>
+    </div>
+</nav>
+{% block body %}
+{% endblock %}
+</body>
+
+</html>
