@@ -1,13 +1,15 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import Http404
 from django.views import generic
 from django.template import loader
 from django.shortcuts import render
 from .models import Community
 from. models import Post
+from django.urls import reverse
 
-class ListView(generic.ListView):
+class ListView(generic.ListView): 
 
     template_name = "index.html"
     context_object_name = "all_communities" 
@@ -18,14 +20,10 @@ class ListView(generic.ListView):
         return Community.objects.all()
 
 class DetailView(generic.DetailView):
-    model = Community #Primary Key of Lists --> Community.
+    model = Community #Primary Key of Lists --> Community. primary key olduğunu hep model ile belirtiyoruz
     template_name = "detail.html"
 
-
-#old structure
-#def community_detail (request,community_id):
-#    try:
-#        community = Community.objects.get(pk=community_id)
-#    except Community.DoesNotExist:
-#        raise  Http404("Community Does Not Exist")
-#    return render(request, "detail.html", {"community" : community} )
+class CommunityCreate(CreateView):
+    model = Community
+    #template_name = "community_form.html"
+    fields = ["community_name", "community_description","community_tag"]
