@@ -6,11 +6,11 @@ class Community(models.Model):
     community_description = models.CharField(max_length=200)
     community_tag = models.CharField(max_length=150)
 
-    def get_absolute_url(self):
-        return reverse("detail.html", kwargs={"pk" : self.pk})
-
     def __str__ (self):
         return self.community_name + "--" +self.community_description
+
+    def get_absolute_url(self):
+         return reverse('community:community_detail', kwargs={"pk" : self.pk})
 
 class Post(models.Model):
     community = models.ForeignKey(Community, on_delete=models.CASCADE)
