@@ -2,6 +2,7 @@ from django.views.generic import (CreateView, DetailView, ListView, UpdateView, 
 from django.http import Http404
 from .models import Community
 from. models import Post
+from .forms import CommunityCreateForm
 
 class CommunityListView(ListView): 
 
@@ -21,5 +22,5 @@ class CommunityDetailView(DetailView):
 class CommunityCreate(CreateView):
     model = Community
     template_name = "community_form.html"
-    fields = ["community_name", "community_description","community_tag"]
+    form_class = CommunityCreateForm
     
