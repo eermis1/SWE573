@@ -18,6 +18,7 @@ class Post(models.Model):
     post_title = models.CharField(max_length=100)
     post_description = models.CharField(max_length=200)
     post_tag = models.CharField(max_length=150)
+    additional_data_structure = models.ManyToManyField("DataStructure")
 
 
     def __str__ (self):
@@ -46,11 +47,10 @@ class DataStructure(models.Model):
         (Location, "Location"),
         (URL, "URL")
     ]
-
+    #community = models.ForeignKey(Community, default="", on_delete=models.CASCADE)
     field_label = models.CharField(max_length=100)
     field_isrequired = models.BooleanField(default=False)
     field_dstructure = models.CharField(max_length=5, choices=data_structures, default=Text)
-    #community = models.ForeignKey(Community, on_delete=models.CASCADE)
     
     def __str__ (self):
-        return self.field_label + "--" + self.field_dstructure + "--" + self.field_isrequired
+        return self.field_label + "--" + self.field_dstructure 
