@@ -4,6 +4,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Community
 from. models import Post
 from .forms import CommunityCreateForm, PostTypeCreateForm
+from django.http import JsonResponse
+import uuid
 
 class CommunityListView(ListView): 
 
@@ -33,11 +35,24 @@ def PostTypeCreate(request, community_id):
         if form.is_valid():
             Post = form.save(commit=False)
             Post.community = community #autofill labels
-            Post.save()
+
+            # fields = {}
+            # fields.setdefault("field_name", []) #Set Field Name as Key, Values As Python List
+            # fields.setdefault("field_type", []) #Set Field Name as Key, Values As Python List
+            # fields.setdefault("field_required", []) #Set Field Name as Key, Values As Python List
+            
+            # #Get Values From The Form 
+            # fields["field_name"] = request.POST.get("dt_fieldlabel_v1", "")
+            # fields["field_name"] = request.POST.get("dt_fieldlabel_v2", "")
+            # fields["field_name"] = request.POST.get("dt_fieldlabel_v3", "")
+            # fields["field_name"] = request.POST.get("dt_fieldlabel_v4", "")
+            # fields["field_name"] = request.POST.get("dt_fieldlabel_v5", "")
+            # Post.formfield = fields
+            # Post.save()
+
             return HttpResponse("success")
         return render(request, 'posttype_form', {'form': form})
     else:
         form = PostTypeCreateForm()
    
     return render(request, "posttype_form.html", {"form" : form})
-
