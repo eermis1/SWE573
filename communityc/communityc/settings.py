@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'communityc.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'communityc_db_test_2',
+        'NAME': 'communityc_db_v2',
         'USER': 'postgres',
         'PASSWORD': 'Seneevo1992',
         'HOST': 'localhost',
