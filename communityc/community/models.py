@@ -7,7 +7,7 @@ class Community(models.Model):
     community_tag = models.CharField(max_length=150)
 
     def __str__ (self):
-        return self.community_name + "--" +self.community_description
+        return ("Community ID : " + str(self.id) +  "     " + "Community Name : " + self.community_name)
 
     def get_absolute_url(self):
          return reverse('community:community_detail', kwargs={"pk" : self.pk})
@@ -19,4 +19,6 @@ class Post(models.Model):
     post_tag = models.CharField(max_length=150)
 
     def __str__ (self):
-        return self.post_title + "--" + self.post_description
+        return ("\nPost id : " + str(self.id) + "\nPost Title : " + self.post_title +  "\nPost Description : " + self.post_description +  "\nPost Tag : "  
+                + self.post_tag + "\nPost Community id : " + str(self.community))
+    
