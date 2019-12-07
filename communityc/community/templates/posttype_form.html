@@ -25,5 +25,57 @@
                 </div>
             </div>
         </div>
+    </div>
+{#    Additional / Customizable Data Fields Session Starts Here #}
+<div class="form-group">
+    <div class="addfields">
+         <table class="table" id="myTable">
+            <thead>
+               <tr>
+                <th scope="col">Field Pos. No</th>
+                <th scope="col">Field Label</th>
+                <th scope="col">Field Type</th>
+                <th scope="col">Is Required?</th>
+                <th scope="col">Add New Item</th>
+                </tr>
+            </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">
+                            <input type="text" id="dt_fieldposnr" class="floatLabel_dt"
+                                name="dt_fieldposnr">
+                        </th>
+                        <th scope="row">
+                            <input type="text" id="dt_fieldlabel" class="floatLabel_dt"
+                                name="dt_fieldlabel">
+                         </th>
+                        <td>
+                            <select class="mdb-select md-form floatLabel_dt" name="dt_fieldtype">
+                                <option value="" disabled selected>Choose your option</option>
+                                <option value="TE">Text field</option>
+                                <option value="TA">Text area</option>
+                                <option value="DA">Date</option>
+                                <option value="TI">Time</option>
+                                <option value="IN">Integer</option>
+                                <option value="IM">Image</option>
+                                <option value="VI">Video</option>
+                                <option value="AU">Audio</option>
+                                <option value="UR">URI</option>
+                                <option value="LO">Location</option>
+                            </select>
+                        </td>
+                            <td>
+                                <input type="checkbox" checked="true" data-toggle="toggle"
+                                    data-style="ios"
+                                    id="dt_fieldrequire" name="dt_fieldrequire"
+                                    data-onstyle="success">
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-outline-success" id="addDataField">+</button>
+                            </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>                   
 {% endblock %}
 </html>
