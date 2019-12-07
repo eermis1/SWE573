@@ -22,4 +22,4 @@ class Post(models.Model):
 
     def __str__ (self):
         return ("\nPost id : " + str(self.id) + "\nPost Title : " + self.post_title +  "\nPost Description : " + self.post_description +  "\nPost Tag : "  
-                + self.post_tag + "\nPost Community id : " + str(self.community))
+                + self.post_tag + "\nForm Field:" + str(self.formfield) + "\nPost Community id : " + str(self.community))
