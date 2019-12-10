@@ -6,6 +6,7 @@ from. models import Post
 from .forms import CommunityCreateForm, PostTypeCreateForm
 from django.http import JsonResponse
 import uuid
+import requests
 
 class CommunityListView(ListView): 
 
@@ -56,3 +57,37 @@ def PostTypeCreate(request, community_id):
         form = PostTypeCreateForm()
    
     return render(request, "posttype_form.html", {"form" : form})
+
+
+def AddSemanticTag(request):
+    tag = [] #Create Empty List
+    if request.method == "POST":   
+
+        input_for_tag = request.POST.get("input_box", "Hatali Giris")
+        #-----------000-------------------000------------------- 
+        #Wikidata Query
+        API_ENDPOINT = "https://www.wikidata.org/w/api.php"
+        query = input_for_tag
+        params = {
+        'action': 'wbsearchentities',
+        'format': 'json',
+        'language': 'en',
+        'limit': '3',
+        'search': query
+        }
+        wiki_request = requests.get(API_ENDPOINT, params=params)
+        wiki_return = wiki_request.json()["search"] 
+        #-----------000-------------------000------------------- 
+        #Put Items Into A List For Render
+        for i in range(len(wiki_return)):
+            try:
+                tag.append(wiki_return[i]["description"])
+            except KeyError:
+                continue
+        
+        return render(request, "wikidata.html",{"tag":tag})
+
+    return render(request, "wikidata.html",{"tag":tag})
+
+
+

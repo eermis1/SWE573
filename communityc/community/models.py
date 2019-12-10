@@ -6,6 +6,7 @@ class Community(models.Model):
     community_name = models.CharField(max_length=100)
     community_description = models.CharField(max_length=200)
     community_tag = models.CharField(max_length=150)
+    community_tag_wiki = models.CharField(max_length=400)
 
     def __str__ (self):
         return ("Community ID : " + str(self.id) +  "     " + "Community Name : " + self.community_name)
