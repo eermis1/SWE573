@@ -22,10 +22,8 @@
     <div class="row">
       <!-- Blog Entries Column -->
       <div class="col-md-8">
-        
-        <h1 class="my-4">
-          <small>You Gonna Find Exactly What You Want..</small>
-        </h1>
+        {% comment %} <h1 class="my-4"><small>Communities</small></h1> {% endcomment %}
+        <br></br>
         <!-- Blog Post -->
         {% for community in all_communities %}
           <div class="card mb-4">
@@ -34,7 +32,6 @@
               <p class="card-text">Community Description : {{ community.community_description }}</p>
               <p class="card-text2">Community Tag : {{ community.community_tag }}</p>
               <a href="#" class="btn btn-primary"> Go To Posts &rarr;</a>
-               <a href="#" class="btn btn-primary">Join !</a>
             </div>
             <div class="card-footer text-muted">
                Created By : {{community.community_builder}} &nbsp;&nbsp;&nbsp;&nbsp;Created On : {{community.community_creation_date}}
@@ -52,67 +49,43 @@
             <a class="page-link" href="#">Newer &rarr;</a>
           </li>
         </ul>
-
       </div>
 
       <!-- Sidebar Widgets Column -->
       <div class="col-md-4">
-        <!-- Categories Widget -->
+       <br></br>
+           <!-- Search Widget -->
         <div class="card my-4">
-          <h5 class="card-header">Categories</h5>
+          <h5 class="card-header">Search</h5>
           <div class="card-body">
-            <div class="row">
-              <div class="col-lg-6">
-                <ul class="list-unstyled mb-0">
-                  <li>
-                    <a href="#">Web Design</a>
-                  </li>
-                  <li>
-                    <a href="#">HTML</a>
-                  </li>
-                  <li>
-                    <a href="#">Freebies</a>
-                  </li>
-                </ul>
-              </div>
-              <div class="col-lg-6">
-                <ul class="list-unstyled mb-0">
-                  <li>
-                    <a href="#">JavaScript</a>
-                  </li>
-                  <li>
-                    <a href="#">CSS</a>
-                  </li>
-                  <li>
-                    <a href="#">Tutorials</a>
-                  </li>
-                </ul>
-              </div>
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search for...">
+              <span class="input-group-btn">
+                <button class="btn btn-secondary" type="button">Go!</button>
+              </span>
             </div>
           </div>
         </div>
 
         <!-- Side Widget -->
         <div class="card my-4">
-          <h5 class="card-header">Side Widget</h5>
+          <h5 class="card-header">Information</h5>
           <div class="card-body">
-            You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
+          Created By Evren Ermis For SWE 573 Software Development Practice
           </div>
         </div>
-
       </div>
-
     </div>
-    <!-- /.row -->
-
   </div>
-  <!-- /.container -->
 
   <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; Community Center 2019</p>
+    </div>
   <!-- Bootstrap core JavaScript -->
   <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
   <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-
 </body>
 {% endblock %}
 
