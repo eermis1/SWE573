@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% extends 'Overall/base.html' %} 
+{% block title %}Register To CommunityCenter{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2 col-md-10">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3>Register To CommunityCenter</h3>
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+                    <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% include 'form_template.html' %}
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-2">
+                                <button type="submit" class="btn btn-success">Add</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+{% endblock %}
+</html>

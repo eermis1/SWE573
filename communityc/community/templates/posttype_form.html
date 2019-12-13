@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+{% extends 'Overall/base.html' %} 
+{% block title %}Add a New Community{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2 col-md-10">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3>Add a New Post Type</h3>
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+                    <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="community" value="{{ community }}">
+                        {% include 'form_template.html' %}
+                        <div class="form-group">
+         <table class="table" id="myTable">
+            <thead>
+               <tr>
+                <th scope="col">Field Label</th>
+                <th scope="col">Field Type</th>
+                <th scope="col">Is Required?</th>
+                </tr>
+            </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">
+                            <input type="text" id="dt_fieldlabel_v1" class="floatLabel_dt"
+                                name="dt_fieldlabel_v1">
+                         </th>
+                        <td>
+                            <select class="mdb-select md-form floatLabel_dt" name="dt_fieldtype_v1">
+                                <option value="" disabled selected>Choose your option</option>
+                                <option value="TE">Text field</option>
+                                <option value="TA">Text area</option>
+                                <option value="DA">Date</option>
+                                <option value="TI">Time</option>
+                                <option value="IN">Integer</option>
+                                <option value="IM">Image</option>
+                                <option value="VI">Video</option>
+                                <option value="AU">Audio</option>
+                                <option value="UR">URI</option>
+                                <option value="LO">Location</option>
+                            </select>
+                        </td>
+                            <td>
+                                <input type="checkbox" checked="true" data-toggle="toggle"
+                                    data-style="ios"
+                                    id="dt_fieldrequire_v1" name="dt_fieldrequire_v1"
+                                    data-onstyle="success">
+                            </td>
+                        </td<
+                    </tr>
+                </tbody>
+               <tbody>
+                    <tr>
+                        <th scope="row">
+                            <input type="text" id="dt_fieldlabel_v2" class="floatLabel_dt"
+                                name="dt_fieldlabel_v2">
+                         </th>
+                        <td>
+                            <select class="mdb-select md-form floatLabel_dt" name="dt_fieldtype_v2">
+                                <option value="" disabled selected>Choose your option</option>
+                                <option value="TE">Text field</option>
+                                <option value="TA">Text area</option>
+                                <option value="DA">Date</option>
+                                <option value="TI">Time</option>
+                                <option value="IN">Integer</option>
+                                <option value="IM">Image</option>
+                                <option value="VI">Video</option>
+                                <option value="AU">Audio</option>
+                                <option value="UR">URI</option>
+                                <option value="LO">Location</option>
+                            </select>
+                        </td>
+                            <td>
+                                <input type="checkbox" checked="true" data-toggle="toggle"
+                                    data-style="ios"
+                                    id="dt_fieldrequire_v2" name="dt_fieldrequire_v2"
+                                    data-onstyle="success">
+                            </td>
+                        </td<
+                    </tr>
+                </tbody>
+               <tbody>
+                    <tr>
+                        <th scope="row">
+                            <input type="text" id="dt_fieldlabel_v3" class="floatLabel_dt"
+                                name="dt_fieldlabel_v3">
+                         </th>
+                        <td>
+                            <select class="mdb-select md-form floatLabel_dt" name="dt_fieldtype_v3">
+                                <option value="" disabled selected>Choose your option</option>
+                                <option value="TE">Text field</option>
+                                <option value="TA">Text area</option>
+                                <option value="DA">Date</option>
+                                <option value="TI">Time</option>
+                                <option value="IN">Integer</option>
+                                <option value="IM">Image</option>
+                                <option value="VI">Video</option>
+                                <option value="AU">Audio</option>
+                                <option value="UR">URI</option>
+                                <option value="LO">Location</option>
+                            </select>
+                        </td>
+                            <td>
+                                <input type="checkbox" checked="true" data-toggle="toggle"
+                                    data-style="ios"
+                                    id="dt_fieldrequire_v3" name="dt_fieldrequire_v3"
+                                    data-onstyle="success">
+                            </td>
+                        </td<
+                    </tr>
+                </tbody>
+               <tbody>
+                    <tr>
+                        <th scope="row">
+                            <input type="text" id="dt_fieldlabel_v4" class="floatLabel_dt"
+                                name="dt_fieldlabel_v4">
+                         </th>
+                        <td>
+                            <select class="mdb-select md-form floatLabel_dt" name="dt_fieldtype_v4">
+                                <option value="" disabled selected>Choose your option</option>
+                                <option value="TE">Text field</option>
+                                <option value="TA">Text area</option>
+                                <option value="DA">Date</option>
+                                <option value="TI">Time</option>
+                                <option value="IN">Integer</option>
+                                <option value="IM">Image</option>
+                                <option value="VI">Video</option>
+                                <option value="AU">Audio</option>
+                                <option value="UR">URI</option>
+                                <option value="LO">Location</option>
+                            </select>
+                        </td>
+                            <td>
+                                <input type="checkbox" checked="true" data-toggle="toggle"
+                                    data-style="ios"
+                                    id="dt_fieldrequire_v4" name="dt_fieldrequire_v4"
+                                    data-onstyle="success">
+                            </td>
+                        </td<
+                    </tr>
+                </tbody>
+               <tbody>
+                    <tr>
+                        <th scope="row">
+                            <input type="text" id="dt_fieldlabel_v5" class="floatLabel_dt"
+                                name="dt_fieldlabel_v5">
+                         </th>
+                        <td>
+                            <select class="mdb-select md-form floatLabel_dt" name="dt_fieldtype_v5">
+                                <option value="" disabled selected>Choose your option</option>
+                                <option value="TE">Text field</option>
+                                <option value="TA">Text area</option>
+                                <option value="DA">Date</option>
+                                <option value="TI">Time</option>
+                                <option value="IN">Integer</option>
+                                <option value="IM">Image</option>
+                                <option value="VI">Video</option>
+                                <option value="AU">Audio</option>
+                                <option value="UR">URI</option>
+                                <option value="LO">Location</option>
+                            </select>
+                        </td>
+                            <td>
+                                <input type="checkbox" checked="true" data-toggle="toggle"
+                                    data-style="ios"
+                                    id="dt_fieldrequire_v5" name="dt_fieldrequire_v5"
+                                    data-onstyle="success">
+                            </td>
+                        </td<
+                    </tr>
+                </tbody>
+            </table>                            
+                            <div class="col-sm-offset-2 col-sm-2">
+                                <button type="submit" class="btn btn-success">   Add  </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>   
+{% endblock %}
+</html>
