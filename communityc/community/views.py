@@ -3,9 +3,9 @@ from django.http import Http404, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Community, Post
 from .forms import CommunityCreateForm, PostTypeCreateForm, UserRegistrationForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
-import requests
+
 
 class CommunityListView(ListView): 
 
@@ -129,4 +129,9 @@ def UserLogin(request):
             return render(request, "user_login.html", {"error_message":"Invalid Login Credentials"})
     
     return render(request, "user_login.html", {})
+
+def UserLogout(request):
+    logout(request)
+    form = UserRegistrationForm(request.POST or None)
+    return render(request, "user_login.html", {"form":form})
                 
