@@ -5,7 +5,8 @@ from .models import Community, Post
 from .forms import CommunityCreateForm, PostTypeCreateForm, UserRegistrationForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
-
+from django.utils import timezone
+import datetime
 
 class CommunityListView(ListView): 
 
@@ -31,6 +32,7 @@ def CommunityCreate(request):
             if form.is_valid():
                 Community = form.save(commit=False)
                 Community.community_builder = request.user
+                Community_community_creation_date = timezone.now()
                 Community.save()
                 return render(request, "community_detail.html", {"Community":Community})
             return render(request, "community_detail.html", {"Community":Community})
@@ -39,13 +41,6 @@ def CommunityCreate(request):
         return render(request,"community_form.html",{"form":form})
     else:    
         return render(request, 'user_login.html', {})
-
-        # model = Community
-        # template_name = "community_form.html"
-        # form_class = CommunityCreateForm
-
-
-    community_builder = user.objects.get(username=request.user)
     
 def PostTypeCreate(request, community_id):
 

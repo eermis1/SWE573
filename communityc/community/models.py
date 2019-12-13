@@ -3,15 +3,16 @@ from django.urls import reverse
 from django.contrib.postgres.fields import JSONField
 from django.contrib.auth.models import Permission, User
 from django.conf import settings
+import datetime
 
 
 class Community(models.Model):
-    # community_builder = models.ForeignKey(User,blank=False,null=False, on_delete=models.PROTECT, default=1)
     community_builder = models.ForeignKey(User, on_delete=models.PROTECT)
     community_name = models.CharField(max_length=100)
     community_description = models.CharField(max_length=200)
     community_tag = models.CharField(max_length=150)
     community_tag_wiki = models.CharField(max_length=400)
+    community_creation_date = models.DateTimeField(auto_now_add=True, blank=True, null = True)
     
 
     def __str__ (self):
