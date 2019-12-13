@@ -24,22 +24,30 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
+          <ul class="navbar-nav ml-left">
             <li class="nav-item">
               <a class="nav-link" href="{% url 'community:homepage'%}">Home</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'community:community_create'%}">Add Community</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Add Post</a>
+              <li class="nav-item">
+              <a class="nav-link" href="">Advanced Search</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">{{user.username}}</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Login/Logout</a>
-            </li>
+            </ul>
+          <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+              <a class="nav-link" href="#">UserName : {{user.username}}</a>
+              </li>
+              <li class="nav-item">
+              <a class="nav-link" href=" {% url "community:register" %} ">Register</a>
+          </li>
+              <li class="nav-item">
+              <a class="nav-link" href="{% url "community:login" %}">Login</a>
+              </li>
+              <li class="nav-item">
+              <a class="nav-link" href="{% url "community:logout" %}">Logout</a>
+          </li>
           </ul>
         </div>
       </div>
