@@ -88,6 +88,7 @@ def AddSemanticTag(request):
 
     return render(request, "wikidata.html",{"tag":tag})
 
+#-------------------------------------User Registration / Loging / Logout Processes--------------------------------------
 
 def UserRegistration(request):
     form = UserRegistrationForm(request.POST or None)
@@ -110,3 +111,22 @@ def UserRegistration(request):
                 return render(request,"index.html",{"communities":Communities})
         
     return render(request, "user_registration_form.html", {"form":form})
+
+def UserLogin(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None: 
+            if user.is_active:
+                login(request, user)
+                #redirect logged in users to homepage
+                Communities = Community.objects.all() #All Dememize Rağmen Yönlendirdiği İndex Boş Gelyor ? 
+                return render(request,"index.html",{"communities":Communities})
+            else:
+                return render(request, "user_login.html",{"error_message":"Your Account Has Been Disabled"})
+        else:
+            return render(request, "user_login.html", {"error_message":"Invalid Login Credentials"})
+    
+    return render(request, "user_login.html", {})
+                
