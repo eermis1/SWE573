@@ -103,6 +103,18 @@ def AddSemanticTag(request):
 
     return render(request, "wikidata.html",{"tag":tag})
 
+def Search(request):
+    communities = Community.objects.all()
+    post_types = Post.objects.all()
+    query = request.GET.get("q") #Get Item To Be Search From Search Box Which Is Location On Index HTML
+    if query:
+        #Filter Community Name or Community Title Be Like Query Which Is Q
+        communities = communities.filter(Q(community_name__icontains=query) | Q(community_tag__icontains=query)).distinct()
+        return render(request,"index.html", {"communities":communities})
+    else:
+        return render(request,"index.html", {"communities":communities})
+
+
 #-------------------------------------User Registration / Loging / Logout Processes--------------------------------------
 
 def UserRegistration(request):
