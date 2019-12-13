@@ -1,11 +1,10 @@
-from django.views.generic import (CreateView, DetailView, ListView, UpdateView, DeleteView)
+from django.views.generic import (CreateView, DetailView, ListView, UpdateView, DeleteView, View)
 from django.http import Http404, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Community
-from. models import Post
-from .forms import CommunityCreateForm, PostTypeCreateForm
+from .models import Community, Post
+from .forms import CommunityCreateForm, PostTypeCreateForm, UserRegistrationForm
+from django.contrib.auth import authenticate, login
 from django.http import JsonResponse
-import uuid
 import requests
 
 class CommunityListView(ListView): 
@@ -90,4 +89,24 @@ def AddSemanticTag(request):
     return render(request, "wikidata.html",{"tag":tag})
 
 
-
+def UserRegistration(request):
+    form = UserRegistrationForm(request.POST or None)
+    if form.is_valid():
+        user = form.save(commit=False)
+        #cleaned / normalized data
+        username = form.cleaned_data["username"]
+        password = form.cleaned_data["password"]
+        email = form.cleaned_data["email"]
+        user.set_password(password)
+        # Save user crendentials to the database
+        user.save()
+        # return user objects if the credentials are correct
+        user = authenticate(username = username, password = password)
+        if user is not None: 
+            if user.is_active:
+                login(request, user)
+                #redirect logged in users to homepage
+                Communities = Community.objects.all() #All Dememize Rağmen Yönlendirdiği İndex Boş Gelyor ? 
+                return render(request,"index.html",{"communities":Communities})
+        
+    return render(request, "user_registration_form.html", {"form":form})
