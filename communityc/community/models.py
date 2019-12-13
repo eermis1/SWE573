@@ -1,12 +1,18 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.postgres.fields import JSONField
+from django.contrib.auth.models import Permission, User
+from django.conf import settings
+
 
 class Community(models.Model):
+    # community_builder = models.ForeignKey(User,blank=False,null=False, on_delete=models.PROTECT, default=1)
+    community_builder = models.ForeignKey(User, on_delete=models.PROTECT)
     community_name = models.CharField(max_length=100)
     community_description = models.CharField(max_length=200)
     community_tag = models.CharField(max_length=150)
     community_tag_wiki = models.CharField(max_length=400)
+    
 
     def __str__ (self):
         return ("Community ID : " + str(self.id) +  "     " + "Community Name : " + self.community_name)
@@ -19,6 +25,7 @@ class Post(models.Model):
     post_title = models.CharField(max_length=100)
     post_description = models.CharField(max_length=200)
     post_tag = models.CharField(max_length=150)
+    post_owner =models.ForeignKey(User, on_delete=models.PROTECT)
     formfield = JSONField(default = "") #The Additional/Customizable Data Fields To Be Stored In This Field
 
     def __str__ (self):

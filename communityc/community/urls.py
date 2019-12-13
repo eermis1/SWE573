@@ -10,6 +10,6 @@ urlpatterns = [
     path("logout/", views.UserLogout, name="logout"), #User Logout URL
     path('wikitag/', views.AddSemanticTag, name="semantic_tag"),#Community Semantic Tag Trial
     path('<pk>/', views.CommunityDetailView.as_view(), name="community_detail" ), 
-    path('community/add/', views.CommunityCreate.as_view(), name="community_create"), #Community Create URL
+    path('community/add/', views.CommunityCreate, name="community_create"), #Community Create URL
     path('posttype/add/<int:community_id>', views.PostTypeCreate, name="posttype_create"), #Post Type Create URl  
 ]

@@ -22,10 +22,30 @@ class CommunityDetailView(DetailView):
     def get_queryset(self):
         return Community.objects.all()
 
-class CommunityCreate(CreateView):
-    model = Community
-    template_name = "community_form.html"
-    form_class = CommunityCreateForm
+def CommunityCreate(request):
+    # To Overcome Simple Lazy Object Error We Used Auhentication Check Before Community Creation
+    # In Principle If A User Wants To Build A Community He/She Has To Loggin or Register First
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            form = CommunityCreateForm(request.POST)
+            if form.is_valid():
+                Community = form.save(commit=False)
+                Community.community_builder = request.user
+                Community.save()
+                return render(request, "community_detail.html", {"Community":Community})
+            return render(request, "community_detail.html", {"Community":Community})
+        else:
+            form = CommunityCreateForm()
+        return render(request,"community_form.html",{"form":form})
+    else:    
+        return render(request, 'user_login.html', {})
+
+        # model = Community
+        # template_name = "community_form.html"
+        # form_class = CommunityCreateForm
+
+
+    community_builder = user.objects.get(username=request.user)
     
 def PostTypeCreate(request, community_id):
 
