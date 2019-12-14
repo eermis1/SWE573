@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+{% comment %} Index Page For Post Types Based On Selected Community {% endcomment %}
 {% load static %}
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>CommunityCenter Home</title>
+  <title>CommunityCenter - Post Types</title>
   <!-- Bootstrap core CSS -->
   <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
   <!-- Custom styles for this template -->
@@ -29,7 +31,7 @@
               <a class="nav-link" href="{% url 'community:homepage'%}">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'community:community_create'%}">Add Community</a>
+              <a class="nav-link" href="">Add Post Type</a>
             </li>
               <li class="nav-item">
               <a class="nav-link" href="">Advanced Search</a>
@@ -62,16 +64,16 @@
         {% comment %} <h1 class="my-4"><small>Communities</small></h1> {% endcomment %}
         <br></br>
         <!-- Blog Post -->
-        {% for community in all_communities %}
+        {% for post_type in all_post_types %}
           <div class="card mb-4">
             <div class="card-body">
-              <h2 class="card-title">{{ community.community_name }}</h2>
-              <p class="card-text">Community Description : {{ community.community_description }}</p>
-              <p class="card-text2">Community Tag : {{ community.community_tag }}</p>
-              <a href="{% url "community:community_posttype_detail" community.id %}" class="btn btn-primary"> Go To Posts &rarr;</a>
+              <h2 class="card-title">{{ post_type.post_title}}</h2>
+              <p class="card-text">Post Type Description {{ post_type.post_description}}</p>
+              <p class="card-text2">Post Type Tag : {{ post_type.post_tag }}</p>
+              <a href="#" class="btn btn-primary"> Go To Posts &rarr;</a>
             </div>
             <div class="card-footer text-muted">
-               Created By : {{community.community_builder}} &nbsp;&nbsp;&nbsp;&nbsp;Created On : {{community.community_creation_date}}
+               Created By : {{post_type.post_owner}} &nbsp;&nbsp;&nbsp;&nbsp;Created On : {{post_type.post_creation_date}}
             </div>
           </div>
         {% endfor %}
@@ -86,7 +88,7 @@
           </li>
         </ul>
       </div>
-
+      
       <!-- Sidebar Widgets Column -->
       <div class="col-md-4">
        <br></br>
@@ -94,8 +96,8 @@
         <div class="card my-4">
           <h5 class="card-header">Search</h5>
           <div class="card-body">
-             <form method="get" action="{% url "community:homepage" %}">
-              <input class="form-control form-control-lg" type="text" name="q" id="q" placeholder="Search For Community.." value="{{ request.GET.q }}" >
+             <form method="get" action="">
+              <input class="form-control form-control-lg" type="text" name="q" id="q" placeholder="Search For Post Type.." value="{{ request.GET.q }}" >
               <p></p>
               <input type="submit" class="btn btn-primary"></button>
              </form> 

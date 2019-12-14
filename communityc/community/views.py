@@ -25,6 +25,17 @@ class CommunityListView(ListView):
                                              Q(community_tag__icontains=query)).distinct()
         return communities
    
+class Community_PostType_DetailView(DetailView):
+    model = Community
+    #context_object_name = "all_post_types"
+    template_name = "index_pt.html"
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context["all_post_types"] = Post.objects.all()
+        return context
+
 class CommunityDetailView(DetailView):
     model = Community #Primary Key of Lists --> Community. primary key olduğunu hep model ile belirtiyoruz
     template_name = "community_detail.html"

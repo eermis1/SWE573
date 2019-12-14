@@ -15,12 +15,11 @@ class Community(models.Model):
     community_tag_wiki = models.CharField(max_length=400)
     community_creation_date = models.DateTimeField(auto_now_add=True, blank=True, null = True)
     
-
     def __str__ (self):
         return ("Community ID : " + str(self.id) +  "     " + "Community Name : " + self.community_name)
 
     def get_absolute_url(self):
-         return reverse('community:community_detail', kwargs={"pk" : self.pk})
+         return reverse('community:community_posttype_detail', kwargs={"pk" : self.pk})
 
     def was_published_recently(self):
         #Last 2 Days Of Communities --> Recent
@@ -32,6 +31,7 @@ class Post(models.Model):
     post_description = models.CharField(max_length=200)
     post_tag = models.CharField(max_length=150)
     post_owner =models.ForeignKey(User, on_delete=models.PROTECT)
+    post_creation_date = models.DateTimeField(auto_now_add=True, blank=True, null = True)
     formfield = JSONField(default = "") #The Additional/Customizable Data Fields To Be Stored In This Field
 
     def __str__ (self):
