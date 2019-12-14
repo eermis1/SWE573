@@ -15,8 +15,9 @@ class CommunityListView(ListView):
     template_name = "index.html"
     
     def get_queryset(self):
+        #Sort Communities By Creation Date From Newest To Oldest
+        communities  = Community.objects.order_by("-community_creation_date")
         #3 Way Search Of Community
-        communities  = Community.objects.all()
         query = self.request.GET.get("q")
         if query:
             communities = communities.filter(Q(community_name__icontains=query) |

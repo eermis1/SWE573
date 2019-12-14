@@ -4,6 +4,7 @@ from django.contrib.postgres.fields import JSONField
 from django.contrib.auth.models import Permission, User
 from django.conf import settings
 import datetime
+from django.utils import timezone
 
 
 class Community(models.Model):
@@ -20,6 +21,10 @@ class Community(models.Model):
 
     def get_absolute_url(self):
          return reverse('community:community_detail', kwargs={"pk" : self.pk})
+
+    def was_published_recently(self):
+        #Last 2 Days Of Communities --> Recent
+        return self.community_creation_date >= timezone.now()-datetime.delta(days=2)
 
 class Post(models.Model):
     community = models.ForeignKey(Community, on_delete=models.CASCADE)
