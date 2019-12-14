@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.utils import timezone
 import datetime
+from django.db.models import Q
 
 class CommunityListView(ListView): 
 
@@ -14,8 +15,13 @@ class CommunityListView(ListView):
     template_name = "index.html"
     
     def get_queryset(self):
-        return Community.objects.all()
-
+        #Basic search addition
+        communities  = Community.objects.all()
+        query = self.request.GET.get("q")
+        if query:
+            communities = communities.filter(community_name__icontains=query)
+        return communities
+   
 class CommunityDetailView(DetailView):
     model = Community #Primary Key of Lists --> Community. primary key olduğunu hep model ile belirtiyoruz
     template_name = "community_detail.html"
@@ -102,18 +108,6 @@ def AddSemanticTag(request):
         return render(request, "wikidata.html",{"tag":tag})
 
     return render(request, "wikidata.html",{"tag":tag})
-
-def Search(request):
-    communities = Community.objects.all()
-    post_types = Post.objects.all()
-    query = request.GET.get("q") #Get Item To Be Search From Search Box Which Is Location On Index HTML
-    if query:
-        #Filter Community Name or Community Title Be Like Query Which Is Q
-        communities = communities.filter(Q(community_name__icontains=query) | Q(community_tag__icontains=query)).distinct()
-        return render(request,"index.html", {"communities":communities})
-    else:
-        return render(request,"index.html", {"communities":communities})
-
 
 #-------------------------------------User Registration / Loging / Logout Processes--------------------------------------
 

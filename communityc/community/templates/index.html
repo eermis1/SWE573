@@ -94,13 +94,17 @@
         <div class="card my-4">
           <h5 class="card-header">Search</h5>
           <div class="card-body">
-            <form class="form-group" role="Search" method = "get" action="{% url "community:homepage" %}">
-              <input type="text" class="form-control" name="q" value="{{ request.GET.q }}" placeholder="Search...." >
-              {% comment %} <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> {% endcomment %}
-              <button type="submit" class="btn btn-primary">Search</button>
-          </form>
-          </div>
+             <form method="get" action="{% url "community:homepage" %}">
+              <input type="text" name="q" id="q" placeholder="Search...." value="{{ request.GET.q }}" >
+              <input type="submit" class="btn btn-primary">Search</button>
+             </form> 
+            </div>
         </div>
+            {% comment %} <form method ="post" action="{% url "community:homepage" %}">
+            {% csrf_token %}
+            <input class="form-control form-control-lg" type="text" name = "q" placeholder="Search.."></input>
+            <button type="submit" class="btn btn-success">Search</button>
+            </form> {% endcomment %}
 
         <!-- Side Widget -->
         <div class="card my-4">
