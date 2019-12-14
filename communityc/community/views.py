@@ -15,11 +15,13 @@ class CommunityListView(ListView):
     template_name = "index.html"
     
     def get_queryset(self):
-        #Basic search addition
+        #3 Way Search Of Community
         communities  = Community.objects.all()
         query = self.request.GET.get("q")
         if query:
-            communities = communities.filter(community_name__icontains=query)
+            communities = communities.filter(Q(community_name__icontains=query) |
+                                             Q(community_description__icontains=query) |
+                                             Q(community_tag__icontains=query)).distinct()
         return communities
    
 class CommunityDetailView(DetailView):

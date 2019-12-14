@@ -95,16 +95,12 @@
           <h5 class="card-header">Search</h5>
           <div class="card-body">
              <form method="get" action="{% url "community:homepage" %}">
-              <input type="text" name="q" id="q" placeholder="Search...." value="{{ request.GET.q }}" >
-              <input type="submit" class="btn btn-primary">Search</button>
+              <input class="form-control form-control-lg" type="text" name="q" id="q" placeholder="Search For Community.." value="{{ request.GET.q }}" >
+              <p></p>
+              <input type="submit" class="btn btn-primary"></button>
              </form> 
             </div>
         </div>
-            {% comment %} <form method ="post" action="{% url "community:homepage" %}">
-            {% csrf_token %}
-            <input class="form-control form-control-lg" type="text" name = "q" placeholder="Search.."></input>
-            <button type="submit" class="btn btn-success">Search</button>
-            </form> {% endcomment %}
 
         <!-- Side Widget -->
         <div class="card my-4">
