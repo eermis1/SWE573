@@ -54,8 +54,8 @@ def CommunityCreate(request):
                 Community.community_builder = request.user
                 Community_community_creation_date = timezone.now()
                 Community.save()
-                return render(request, "community_detail.html", {"Community":Community})
-            return render(request, "community_detail.html", {"Community":Community})
+                return redirect("community:homepage")
+            return redirect("community:homepage")
         else:
             form = CommunityCreateForm()
         return render(request,"community_form.html",{"form":form})
