@@ -1,16 +1,28 @@
 body {
-    background-color: white;
-  }
+  background: white
+}
 
-  .navbar{
-    border-radius: 0;
-  }
+ul.errorlist {
+  padding-left: 0;
+}
 
-  .navbar-brand{
-    font-family: "Arial Black", Gadget, sans-serif;
-  }
-  
-  .navbar-default {
-    background-color: #F8F8F8;
-    border-color: #E7E7E7;
+ul.errorlist > li {
+  list-style: none;
+}
+
+.navbar {
+  border-radius: 0;
+}
+
+.navbar-brand {
+  font-family: 'Satisfy', cursive;
+}
+
+.glyphicon-star {
+  color: #CCCCCC;
+  font-size: 16px;
+}
+
+.glyphicon-star.active {
+  color: #FDB230;
 }

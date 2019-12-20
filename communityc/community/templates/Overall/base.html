@@ -1,57 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-{% load static %}
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}CommunityC Homepage{% endblock %}</title> <!-- Page Title Can Changed Via Block Title Code-->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <!-- Bootstrap core CSS -->
-    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-    <!-- Custom styles for this template -->
-    <link href="{% static 'css/blog-home.css' %}" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}"/>
-
+    <title>{% block title %}Build Community{% endblock %}</title>
+    {% load static %}
+    <link rel="shortcut icon" type="image/png" href="{%  static 'favicon.ico' %}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="{% static 'music/style.css' %}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    {% comment %} <script src="{% static 'music/js/main.js' %}"></script> {% endcomment %}
 </head>
 
 <body>
+  <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+          <!-- Header -->
+          <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar">
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="{% url 'community:homepage' %}">CommunityCenter</a>
+          </div>
 
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="{% url 'community:homepage'%}">CommunityCenter</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'community:homepage'%}">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'community:community_create'%}">Add Community</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Add Post</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">{{user.username}}</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Login/Logout</a>
-          </li>
-        </ul>
+          <!-- Items --> 
+          <div class="collapse navbar-collapse" id="topNavBar">
+              <ul class="nav navbar-nav navbar-left">
+                 <li class="Communities"><a href="{% url 'community:homepage' %}"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span>&nbsp; Communities</a>             
+                  </li>
+                  <li class="Post_types"><a href=""><span class="glyphicon glyphicon-fire" aria-hidden="true"></span>&nbsp; Post Types</a>             
+                  </li>
+                  <li class="Posts"><a href=""><span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span>&nbsp; Posts</a>             
+                  </li>
+              </ul>
+             
+              <ul class="nav navbar-nav navbar-right">  
+              <li class="Register"><a href="{% url 'community:register' %}"><span class="glyphicon glyphicon-saved" aria-hidden="true"></span>&nbsp; Register</a>
+                  </li>   
+                  <li class="Login"><a href="{% url 'community:login' %}"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp; Login</a>
+                  </li> 
+                  <li class="Logout"><a href="{% url "community:logout" %}" ><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp; Logout</a>
+                  </li>  
+              </ul>
+          </div>
       </div>
-    </div>
   </nav>
-</body>
-
+  
 {% block body %}
 {% endblock %}
 
-
 </body>
-
 </html>

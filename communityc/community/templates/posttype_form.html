@@ -1,189 +1,240 @@
-<!DOCTYPE html>
-{% extends 'Overall/base.html' %} 
-{% block title %}Add a New Community{% endblock %}
 
-{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Add Post Type</title>
+  
+  {% load static %} 
+  <link href={% static 'community/style.css' %} rel="stylesheet">
+  <!-- Bootstrap core CSS --> 
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link href={% static "MDB/css/bootstrap.min.css"%} rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href={% static "MDB/css/mdb.min.css"%} rel="stylesheet">
+  <!-- Your custom styles (optional) -->
+  <link href={% static "MDB/css/style.css"%} rel="stylesheet">
+  
+</head>
+<body>
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-2 col-md-10">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h3>Add a New Post Type</h3>
+                    <h3><strong><b>Add a New Post Type</b></strong></h3>
                     {% if error_message %}
                         <p><strong>{{ error_message }}</strong></p>
                     {% endif %}
                     <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <input type="hidden" name="community" value="{{ community }}">
+                        <input hidden value ="" type="hidden" name="fieldJson" id = "send"
                         {% include 'form_template.html' %}
-                        <div class="form-group">
-         <table class="table" id="myTable">
-            <thead>
-               <tr>
-                <th scope="col">Field Label</th>
-                <th scope="col">Field Type</th>
-                <th scope="col">Is Required?</th>
-                </tr>
-            </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">
-                            <input type="text" id="dt_fieldlabel_v1" class="floatLabel_dt"
-                                name="dt_fieldlabel_v1">
-                         </th>
-                        <td>
-                            <select class="mdb-select md-form floatLabel_dt" name="dt_fieldtype_v1">
-                                <option value="" disabled selected>Choose your option</option>
-                                <option value="TE">Text field</option>
-                                <option value="TA">Text area</option>
-                                <option value="DA">Date</option>
-                                <option value="TI">Time</option>
-                                <option value="IN">Integer</option>
-                                <option value="IM">Image</option>
-                                <option value="VI">Video</option>
-                                <option value="AU">Audio</option>
-                                <option value="UR">URI</option>
-                                <option value="LO">Location</option>
-                            </select>
-                        </td>
-                            <td>
-                                <input type="checkbox" checked="true" data-toggle="toggle"
-                                    data-style="ios"
-                                    id="dt_fieldrequire_v1" name="dt_fieldrequire_v1"
-                                    data-onstyle="success">
-                            </td>
-                        </td<
-                    </tr>
-                </tbody>
-               <tbody>
-                    <tr>
-                        <th scope="row">
-                            <input type="text" id="dt_fieldlabel_v2" class="floatLabel_dt"
-                                name="dt_fieldlabel_v2">
-                         </th>
-                        <td>
-                            <select class="mdb-select md-form floatLabel_dt" name="dt_fieldtype_v2">
-                                <option value="" disabled selected>Choose your option</option>
-                                <option value="TE">Text field</option>
-                                <option value="TA">Text area</option>
-                                <option value="DA">Date</option>
-                                <option value="TI">Time</option>
-                                <option value="IN">Integer</option>
-                                <option value="IM">Image</option>
-                                <option value="VI">Video</option>
-                                <option value="AU">Audio</option>
-                                <option value="UR">URI</option>
-                                <option value="LO">Location</option>
-                            </select>
-                        </td>
-                            <td>
-                                <input type="checkbox" checked="true" data-toggle="toggle"
-                                    data-style="ios"
-                                    id="dt_fieldrequire_v2" name="dt_fieldrequire_v2"
-                                    data-onstyle="success">
-                            </td>
-                        </td<
-                    </tr>
-                </tbody>
-               <tbody>
-                    <tr>
-                        <th scope="row">
-                            <input type="text" id="dt_fieldlabel_v3" class="floatLabel_dt"
-                                name="dt_fieldlabel_v3">
-                         </th>
-                        <td>
-                            <select class="mdb-select md-form floatLabel_dt" name="dt_fieldtype_v3">
-                                <option value="" disabled selected>Choose your option</option>
-                                <option value="TE">Text field</option>
-                                <option value="TA">Text area</option>
-                                <option value="DA">Date</option>
-                                <option value="TI">Time</option>
-                                <option value="IN">Integer</option>
-                                <option value="IM">Image</option>
-                                <option value="VI">Video</option>
-                                <option value="AU">Audio</option>
-                                <option value="UR">URI</option>
-                                <option value="LO">Location</option>
-                            </select>
-                        </td>
-                            <td>
-                                <input type="checkbox" checked="true" data-toggle="toggle"
-                                    data-style="ios"
-                                    id="dt_fieldrequire_v3" name="dt_fieldrequire_v3"
-                                    data-onstyle="success">
-                            </td>
-                        </td<
-                    </tr>
-                </tbody>
-               <tbody>
-                    <tr>
-                        <th scope="row">
-                            <input type="text" id="dt_fieldlabel_v4" class="floatLabel_dt"
-                                name="dt_fieldlabel_v4">
-                         </th>
-                        <td>
-                            <select class="mdb-select md-form floatLabel_dt" name="dt_fieldtype_v4">
-                                <option value="" disabled selected>Choose your option</option>
-                                <option value="TE">Text field</option>
-                                <option value="TA">Text area</option>
-                                <option value="DA">Date</option>
-                                <option value="TI">Time</option>
-                                <option value="IN">Integer</option>
-                                <option value="IM">Image</option>
-                                <option value="VI">Video</option>
-                                <option value="AU">Audio</option>
-                                <option value="UR">URI</option>
-                                <option value="LO">Location</option>
-                            </select>
-                        </td>
-                            <td>
-                                <input type="checkbox" checked="true" data-toggle="toggle"
-                                    data-style="ios"
-                                    id="dt_fieldrequire_v4" name="dt_fieldrequire_v4"
-                                    data-onstyle="success">
-                            </td>
-                        </td<
-                    </tr>
-                </tbody>
-               <tbody>
-                    <tr>
-                        <th scope="row">
-                            <input type="text" id="dt_fieldlabel_v5" class="floatLabel_dt"
-                                name="dt_fieldlabel_v5">
-                         </th>
-                        <td>
-                            <select class="mdb-select md-form floatLabel_dt" name="dt_fieldtype_v5">
-                                <option value="" disabled selected>Choose your option</option>
-                                <option value="TE">Text field</option>
-                                <option value="TA">Text area</option>
-                                <option value="DA">Date</option>
-                                <option value="TI">Time</option>
-                                <option value="IN">Integer</option>
-                                <option value="IM">Image</option>
-                                <option value="VI">Video</option>
-                                <option value="AU">Audio</option>
-                                <option value="UR">URI</option>
-                                <option value="LO">Location</option>
-                            </select>
-                        </td>
-                            <td>
-                                <input type="checkbox" checked="true" data-toggle="toggle"
-                                    data-style="ios"
-                                    id="dt_fieldrequire_v5" name="dt_fieldrequire_v5"
-                                    data-onstyle="success">
-                            </td>
-                        </td<
-                    </tr>
-                </tbody>
-            </table>                            
-                            <div class="col-sm-offset-2 col-sm-2">
-                                <button type="submit" class="btn btn-success">   Add  </button>
+                            <div class="card">
+                              <p class="card-header text-center font-weight-bold text-uppercase py-4">Additional Custom Label</p>
+                              <div class="card-body">
+                                <div id="table" class="table-editable">
+                                  <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success">
+                                  <i class="fas fa-plus fa-2x" aria-hidden="true"></i></a></span>
+                                  <table id="table" name ="table" class="table table-bordered table-responsive-md table-striped text-center">
+                                    <thead>
+                                      <tr>
+                                        <th class="text-center">FieldLabel</th>
+                                        <th class="text-center">FieldType</th>
+                                        <th class="text-center">IsRequired?</th>
+                                        <th class="text-center">Remove</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr class="hide" id = "newrow">
+                                        {% comment %} <td> <input type="text" id="dt_fieldlabel" class="pt-3-half" name="fieldlabel" contenteditable="true"> </td> {% endcomment %}
+                                        <td class="pt-3-half" contenteditable="true" id = "textinfo"> 
+                                          <input class="md-form floatLabel_dt" type="text" data-toggle="toggle" data-style="ios"  id="requireinfo" name="fieldrequire">
+                                        </td>
+                                        <td>
+                                            <select class="mdb-select md-form floatLabel_dt" name="fieldtype" id="optioninfo" contenteditable="true">
+                                                <option value="" disabled selected>Choose your option</option>
+                                                <option value="text">Text field</option>
+                                                <option value="email">E-mail</option>
+                                                <option value="date">Date</option>
+                                                <option value="time">Time</option>
+                                                <option value="number">Integer</option>
+                                                <option value="image">Image</option>
+                                                <option value="url">URI</option>
+                                                <option value="LO">Location</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input class="md-form floatLabel_dt" type="checkbox" data-toggle="toggle" data-style="ios"  id="aaa" name="fieldrequire" onchange= "selectcheckbox(this.value)" value = "true" checked>
+                                        </td>
+                                        <td>
+                                          <span class="table-remove"><button type="button"
+                                              class="btn btn-danger btn-rounded btn-sm my-3">Remove</button></span>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
                             </div>
-                        </div>
-                    </form>
+<!-- Editable table -->                  
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-2">
+                                <button id="btn" type="submit" class="btn btn-success">   Submit  </button>
+                                </div>
+                             </div>            
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>   
-{% endblock %}
+    </div>
+</body>
+    <!-- Bootstrap core JavaScript -->
+
+    <script type="text/javascript" src={% static "MDB/js/jquery.min.js"%}></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src={% static "MDB/js/popper.min.js"%}></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src={% static "MDB/js/bootstrap.min.js"%}></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src={% static "MDB/js/mdb.min.js"%}></script>
+
+<script>
+const $tableID = $('#table');
+ const $BTN = $('#btn');
+ const $EXPORT = $('#export');
+ const newTr = `
+<tr class="hide">
+  <td class="pt-3-half" contenteditable="true">Example</td>
+  <td class="pt-3-half" contenteditable="true">Example</td>
+  <td class="pt-3-half" contenteditable="true">Example</td>
+  <td>
+    <span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 waves-effect waves-light">Remove</button></span>
+  </td>
+</tr>`;
+ $('.table-add').on('click', 'i', () => {
+   const $clone = $tableID.find('tbody tr').last().clone(true).removeClass('hide table-line');
+   if ($tableID.find('tbody tr').length === 0) {
+     $('tbody').append(newTr);
+   }
+   $tableID.find('table').append($clone);
+ });
+ $tableID.on('click', '.table-remove', function () {
+   $(this).parents('tr').detach();
+ });
+ // A few jQuery helpers for exporting only
+ jQuery.fn.pop = [].pop;
+ jQuery.fn.shift = [].shift;
+ $BTN.on('click', () => {
+   const $rows = $tableID.find('tr:not(:hidden)');
+   const headers = [];
+   const data = [];
+   // Get the headers (add special header logic here)
+   $($rows.shift()).find('th:not(:empty)').each(function () {
+     headers.push($(this).text().toLowerCase());
+     console.log(headers);
+   });
+   // Turn all existing rows into a loopable array
+   $rows.each(function (a) {
+     const $td = $(this).find('td');
+     const h = {};
+     console.log($td)
+     // Use the headers from earlier to name our hash keys
+     headers.forEach((header, i) => {
+       console.log(i);
+       if (i === 0){
+        //h[header] = $td.eq(i).text();
+        h[header] = $rows[a].cells[0].children[0].value;
+       }
+       else if ( i === 1){
+        //const fieldTypes = document.getElementById("optioninfo");
+        console.log($rows[a].cells[1])
+        h[header] = $rows[a].cells[1].children[0].value;
+       }
+      else if ( i === 2){
+        console.log($rows[a].cells[2].children[0])
+         h[header] = $rows[a].cells[2].children[0].value
+      }
+      else{
+        
+      }
+       
+     });
+     data.push(h);
+   });
+    //  const deneme = {
+    //title: document.getElementById('dt_fieldrequire').value,
+    //options: document.getElementById('denemee').val()
+ // }
+  //console.log(deneme);
+   // Output the result
+   //$EXPORT.text(JSON.stringify(data));
+    fieldJson = JSON.stringify(data);
+    $("#send").val(fieldJson);
+   console.log(fieldJson);
+ });
+ $BTN1.on('click', () => {
+   const $rows = $tableID.find('tr:not(:hidden)');
+   const headers = [];
+   const data = [];
+   // Get the headers (add special header logic here)
+   $($rows.shift()).find('th:not(:empty)').each(function () {
+     headers.push($(this).text().toLowerCase());
+   });
+   // Turn all existing rows into a loopable array
+   $rows.each(function (a) {
+     const $td = $(this).find('td');
+     const h = {};
+     // Use the headers from earlier to name our hash keys
+     headers.forEach((header, i) => {
+       console.log(i);
+       if (i === 0){
+        h[header] = $td.eq(i).text();
+        //h[header] = $rows[a].cells[0].children[0].value;
+       }
+       else if ( i === 1){
+        //const fieldTypes = document.getElementById("optioninfo");
+        h[header] = $rows[a].cells[1].children[0].value;
+       }
+      else{
+      }
+     });
+     data.push(h);
+   });
+    //  const deneme = {
+    //title: document.getElementById('dt_fieldrequire').value,
+    //options: document.getElementById('denemee').val()
+ // }
+  //console.log(deneme);
+   // Output the result
+   //$EXPORT.text(JSON.stringify(data));
+    fieldJson = JSON.stringify(data);
+    $("#sendpost").val(fieldJson);
+   console.log(fieldJson);
+ });
+function selectedoptions() {
+  var x = document.getElementById("optioninfo").value;
+  document.getElementById("optioninfo").value = x;
+};
+function selectcheckbox(val){
+  if (val == 'true'){
+    document.getElementById("aaa").value = "false"
+  }
+  else{
+    document.getElementById("aaa").value = "true"
+  }
+  
+}
+var x = {{ data_fields|safe }}
+a = JSON.parse(x[0]['fields']['datafields'])
+console.log(a);
+</script>
+
 </html>
