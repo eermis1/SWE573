@@ -123,6 +123,45 @@ def AddSemanticTag(request):
 
     return render(request, "wikidata.html",{"tag":tag})
 
+
+def Advanced_Search(request):
+    #Load all data 
+    communities  = Community.objects.order_by("-community_creation_date")
+    post_types  = Post.objects.all() # order by creation date to be added
+    #post to be added
+
+    #Get items to be searched
+    query_all = request.GET.get('q_all')
+    query_community = request.GET.get('q_com')
+    query_posttype = request.GET.get('q_posttype')
+
+    #Query Them
+    if query_all:
+        communities = communities.filter(Q(community_name__icontains=query_all) |
+                                         Q(community_description__icontains=query_all) |
+                                         Q(community_tag__icontains=query_all)).distinct()
+
+        post_types = post_types.filter(Q(post_title__icontains=query_all) |
+                                       Q(post_description__icontains=query_all) |
+                                       Q(post_tag__icontains=query_all)).distinct()
+        return render(request, "search.html", {"communities":communities, "post_types":post_types})
+  
+    if query_community:
+        communities = communities.filter(Q(community_name__icontains=query_community) |
+                                         Q(community_description__icontains=query_community) |
+                                         Q(community_tag__icontains=query_community)).distinct()
+
+        return render(request, "search.html", {"communities":communities})
+    
+    if query_posttype:
+        post_types = post_types.filter(Q(post_title__icontains=query_posttype) |
+                                       Q(post_description__icontains=query_posttype) |
+                                       Q(post_tag__icontains=query_posttype)).distinct()
+        return render(request, "search.html", {"post_types":post_types})
+
+    return render(request, "search.html", {"communities":communities, "post_types":post_types})
+
+
 #-------------------------------------User Registration / Loging / Logout Processes--------------------------------------
 
 def UserRegistration(request):
