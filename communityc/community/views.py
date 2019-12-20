@@ -198,8 +198,7 @@ def UserRegistration(request):
             if user.is_active:
                 login(request, user)
                 #redirect logged in users to homepage
-                Communities = Community.objects.all() #All Dememize Rağmen Yönlendirdiği İndex Boş Gelyor ? 
-                return render(request,"index.html",{"communities":Communities})
+                return redirect("community:homepage")
         
     return render(request, "user_registration_form.html", {"form":form})
 
@@ -212,8 +211,7 @@ def UserLogin(request):
             if user.is_active:
                 login(request, user)
                 #redirect logged in users to homepage
-                Communities = Community.objects.all() #All Dememize Rağmen Yönlendirdiği İndex Boş Gelyor ? 
-                return render(request,"index.html",{"communities":Communities})
+                return redirect("community:homepage")
             else:
                 return render(request, "user_login.html",{"error_message":"Your Account Has Been Disabled"})
         else:
@@ -224,5 +222,5 @@ def UserLogin(request):
 def UserLogout(request):
     logout(request)
     form = UserRegistrationForm(request.POST or None)
-    return render(request, "user_login.html", {"form":form})
+    return redirect("community:homepage")
                 
