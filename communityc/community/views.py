@@ -63,34 +63,25 @@ def CommunityCreate(request):
         return render(request, 'user_login.html', {})
     
 def PostTypeCreate(request, community_id):
-
-    community = get_object_or_404(Community, pk=community_id)
-    if request.method == "POST":
-        form = PostTypeCreateForm(request.POST)
-        if form.is_valid():
-            Post = form.save(commit=False)
-            Post.community = community #autofill labels
-
-            # fields = {}
-            # fields.setdefault("field_name", []) #Set Field Name as Key, Values As Python List
-            # fields.setdefault("field_type", []) #Set Field Name as Key, Values As Python List
-            # fields.setdefault("field_required", []) #Set Field Name as Key, Values As Python List
-            
-            # #Get Values From The Form 
-            # fields["field_name"] = request.POST.get("dt_fieldlabel_v1", "")
-            # fields["field_name"] = request.POST.get("dt_fieldlabel_v2", "")
-            # fields["field_name"] = request.POST.get("dt_fieldlabel_v3", "")
-            # fields["field_name"] = request.POST.get("dt_fieldlabel_v4", "")
-            # fields["field_name"] = request.POST.get("dt_fieldlabel_v5", "")
-            # Post.formfield = fields
-            # Post.save()
-
-            return HttpResponse("success")
-        return render(request, 'posttype_form', {'form': form})
+    
+    if request.user.is_authenticated:
+        community = get_object_or_404(Community, pk=community_id)
+        if request.method == "POST":
+            form = PostTypeCreateForm(request.POST)
+            if form.is_valid():
+                Post = form.save(commit=False)
+                Post.community = community 
+                Post.post_owner = request.user
+                jsonfield = request.POST.get("fieldJson")
+                Post.formfield = jsonfield
+                Post.save()
+                return HttpResponse("Success")
+            return HttpResponse("Success")
+        else:
+            form = PostTypeCreateForm()
+        return render(request, "posttype_form.html", {"form" : form})
     else:
-        form = PostTypeCreateForm()
-   
-    return render(request, "posttype_form.html", {"form" : form})
+         return render(request, 'user_login.html', {})
 
 
 def AddSemanticTag(request):
