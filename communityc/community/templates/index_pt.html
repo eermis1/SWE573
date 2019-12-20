@@ -77,7 +77,8 @@
             </div>
           </div>
         {% endfor %}
-
+        
+        {% comment %} 
         <!-- Pagination -->
         <ul class="pagination justify-content-center mb-4">
           <li class="page-item">
@@ -87,7 +88,7 @@
             <a class="page-link" href="#">Newer &rarr;</a>
           </li>
         </ul>
-      </div>
+      </div> {% endcomment %}
       
       <!-- Sidebar Widgets Column -->
       <div class="col-md-4">
@@ -106,9 +107,11 @@
 
         <!-- Side Widget -->
         <div class="card my-4">
-          <h5 class="card-header">Information</h5>
+          <h5 class="card-header">You Are In</h5>
           <div class="card-body">
-          Created By Evren Ermis For SWE 573 Software Development Practice
+          <small>Community Name :</small> <strong><i>{{community.community_name}}</i></strong> <br></br>
+          <small>Community Description :</small><strong><i>{{community.community_description}}</i></strong><br></br> 
+          <small>Community Tag :</small> <strong><i>{{community.community_tag}}</i></strong> 
           </div>
         </div>
       </div>
