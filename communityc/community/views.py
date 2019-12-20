@@ -33,7 +33,14 @@ class Community_PostType_DetailView(DetailView):
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
-        context["all_post_types"] = Post.objects.all()
+        #Search availability for Post Type Detail page       
+        post_types = Post.objects.all()
+        query = self.request.GET.get("q")
+        if query:
+            post_types = post_types.filter(Q(post_title__icontains=query) |
+                                           Q(post_description__icontains=query) |
+                                           Q(post_tag__icontains=query)).distinct()
+        context["all_post_types"] = post_types
         return context
 
 class CommunityDetailView(DetailView):
