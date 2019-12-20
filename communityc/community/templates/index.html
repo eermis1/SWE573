@@ -25,14 +25,14 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-left">
-            <li class="nav-item">
+            <li class="nav-item active">
               <a class="nav-link" href="{% url 'community:homepage'%}">Home</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'community:community_create'%}">Add Community</a>
             </li>
               <li class="nav-item">
-              <a class="nav-link" href="">Advanced Search</a>
+              <a class="nav-link" href="{% url 'community:advanced_search' %}">Advanced Search</a>
             </li>
             </ul>
           <ul class="navbar-nav ml-auto">
