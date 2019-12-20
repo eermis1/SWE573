@@ -1,8 +1,8 @@
 from django.views.generic import (CreateView, DetailView, ListView, UpdateView, DeleteView, View)
 from django.http import Http404, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Community, Post
-from .forms import CommunityCreateForm, PostTypeCreateForm, UserRegistrationForm
+from .models import Community, Post, CommunityMembership
+from .forms import CommunityCreateForm, PostTypeCreateForm, UserRegistrationForm, CommunityMembershipForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.utils import timezone
@@ -161,7 +161,33 @@ def Advanced_Search(request):
 
     return render(request, "search.html", {"communities":communities, "post_types":post_types})
 
+def Join_Communities(request, community_id):
+    all_communities = Community.objects.order_by("-community_creation_date")
+    community = get_object_or_404(Community, pk=community_id)
+    
+    if request.user.is_authenticated:
+        form = CommunityMembershipForm(request.POST or None)
+        CommunityMembership = form.save(commit=False)
+        CommunityMembership.member = request.user
+        CommunityMembership.community = community
+        CommunityMembership.save()
+        status = "Joined"
+        return render(request, "index.html", {"all_communities":all_communities, "status":status})
+    else:
+         return render(request, 'user_login.html', {})
 
+    return(request, "index.html",{"all_communities":all_communities})
+
+# class MyCommunities(DetailView):
+#     model = CommunityMembership
+#     #context_object_name = "all_post_types"
+#     template_name = "index_html"
+
+#     def get_context_data(self, **kwargs):
+#         # Call the base implementation first to get a context
+#         context = super().get_context_data(**kwargs)
+#         context["all_community"] = Communty.objects.all()
+#         return context
 #-------------------------------------User Registration / Loging / Logout Processes--------------------------------------
 
 def UserRegistration(request):

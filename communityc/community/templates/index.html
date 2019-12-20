@@ -34,6 +34,10 @@
               <li class="nav-item">
               <a class="nav-link" href="{% url 'community:advanced_search' %}">Advanced Search</a>
             </li>
+            {% comment %} </li>
+              <li class="nav-item">
+              <a class="nav-link" href="{% url "community:my_communities" user.id %}">My Communities</a>
+            </li> {% endcomment %}
             </ul>
           <ul class="navbar-nav ml-auto">
               <li class="nav-item">
@@ -69,6 +73,7 @@
               <p class="card-text">Community Description : {{ community.community_description }}</p>
               <p class="card-text2">Community Tag : {{ community.community_tag }}</p>
               <a href="{% url "community:community_posttype_detail" community.id %}" class="btn btn-primary"> Go To Posts &rarr;</a>
+              <a href="{% url "community:join" community.id %}" class="btn btn-primary"> Join!</a>
             </div>
             <div class="card-footer text-muted">
                Created By : {{community.community_builder}} &nbsp;&nbsp;&nbsp;&nbsp;Created On : {{community.community_creation_date}}

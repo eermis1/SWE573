@@ -1,5 +1,5 @@
 from django import forms
-from .models import (Community, Post)
+from .models import (Community, Post, CommunityMembership)
 from django.contrib.auth.models import User
 
 
@@ -18,3 +18,8 @@ class  UserRegistrationForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ["username", "email", "password"]
+
+class CommunityMembershipForm (forms.ModelForm):
+    class Meta:
+        model = CommunityMembership
+        fields = []
