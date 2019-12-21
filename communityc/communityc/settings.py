@@ -76,12 +76,12 @@ WSGI_APPLICATION = 'communityc.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'communityc_db_v3',
-        'USER': 'postgres',
-        'PASSWORD': 'Seneevo1992',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'communityc_prod',
+        'USER': 'evren_ermis',
+        'PASSWORD': 'seneevo1992',
         'HOST': 'localhost',
-        'PORT': '5432',
+        'PORT': '',
     }
 }
 
