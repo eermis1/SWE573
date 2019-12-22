@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Add Post Type</title>
+  
+  {% load static %} 
+  <link href={% static 'community/style.css' %} rel="stylesheet">
+  <!-- Bootstrap core CSS --> 
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link href={% static "MDB/css/bootstrap.min.css"%} rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href={% static "MDB/css/mdb.min.css"%} rel="stylesheet">
+  <!-- Your custom styles (optional) -->
+  <link href={% static "MDB/css/style.css"%} rel="stylesheet">
+  
+</head>
+<body>
+<div class = "container-fluid">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h3 class="my-4"> Post</h3>
+                        {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                        {% endif %}
+                        <form class="form-horizontal" method="post"  role="form" >
+                            {% csrf_token %}
+                            <input type="hidden" name="post_type" value="{{ post_type }}">
+                            <input hidden value ="" type="hidden" name="fieldJsonpost" id = "sendpost">
+                            {% include 'form_template.html' %}
+                            <!-- Editable table -->
+                            <div class="card">
+                              <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Editable table</h3>
+                              <div class="card-body">
+                                <div id="table" class="table-editable">
+                                  <span class="table-add float-right mb-3 mr-2">
+                                  <a href="#!" class="text-success"> 
+                                  </a></span>
+                                  <table id="table" name ="table" class="table table-bordered table-responsive-md table-striped text-center">
+                                    <thead>
+                                      <tr>
+                                        <th class="text-center">FieldLabel</th>
+                                        <th class="text-center">FieldType</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for data in data_fields %}
+                                        <tr>
+                                        <td class="pt-3-half" contenteditable="true" id = "textinfo24" value ={{ data_fields }}> {{ data.fieldlabel }} </td>
+                                        <td>
+                                           <input type= {{ data.fieldtype }} name="firstname">
+                                        </td>
+                                      </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+<!-- Editable table -->                 
+                            <div class="form-group">
+                              <div class="col-sm-offset-2 col-sm-2">
+                              <button id="btn1" type="submit" class="btn btn-success">   Submit  </button>
+                              </div>
+                             </div>           
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+    <!-- Bootstrap core JavaScript -->
+
+    <script type="text/javascript" src={% static "MDB/js/jquery.min.js"%}></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src={% static "MDB/js/popper.min.js"%}></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src={% static "MDB/js/bootstrap.min.js"%}></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src={% static "MDB/js/mdb.min.js"%}></script>
+
+<script>
+
+{% comment %}------------------------ Post Type Object JavaScript  ------------------- {% endcomment %}
+
+const $tableID = $('#table');
+const $BTN1 = $('#btn1');
+ // A few jQuery helpers for exporting only
+ jQuery.fn.pop = [].pop;
+ jQuery.fn.shift = [].shift;
+ $BTN1.on('click', () => {
+   const $rows = $tableID.find('tr:not(:hidden)');
+   const headers = [];
+   const data = [];
+   // Get the headers (add special header logic here)
+   $($rows.shift()).find('th:not(:empty)').each(function () {
+     headers.push($(this).text().toLowerCase());
+   });
+   // Turn all existing rows into a loopable array
+   $rows.each(function (a) {
+     const $td = $(this).find('td');
+     const h = {};
+     // Use the headers from earlier to name our hash keys
+     headers.forEach((header, i) => {
+       console.log(i);
+       if (i === 0){
+        h[header] = $td.eq(i).text();
+        //h[header] = $rows[a].cells[0].children[0].value;
+       }
+       else if ( i === 1){
+        //const fieldTypes = document.getElementById("optioninfo");
+        h[header] = $rows[a].cells[1].children[0].value;
+       }
+      else{
+      }
+     });
+     data.push(h);
+   });
+    fieldJson1 = JSON.stringify(data);
+    $("#sendpost").val(fieldJson1);
+   console.log(fieldJson1);
+ });
+function selectedoptions() {
+  var x = document.getElementById("optioninfo").value;
+  document.getElementById("optioninfo").value = x;
+};
+function selectcheckbox(val){
+  if (val == 'true'){
+    document.getElementById("aaa").value = "false"
+  }
+  else{
+    document.getElementById("aaa").value = "true"
+  }
+  
+}
+{% comment %} 
+var x = {{ data_fields|safe }}
+a = JSON.parse(x[0]['fields']['datafields'])
+console.log(a); {% endcomment %}
+
+</script>
+
+</html>
