@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>CommunityCenter - Post Objects</title>
+  <title>Post Object Detail</title>
   <!-- Bootstrap core CSS -->
   <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
   <!-- Custom styles for this template -->
@@ -30,9 +30,6 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'community:homepage'%}">Home</a>
             </li>
-            {% comment %} <li class="nav-item active">
-              <a class="nav-link" href="{% url 'community:posttypeobject_create' post.id%}">Add Post Objects</a>
-            </li> {% endcomment %}
               <li class="nav-item">
               <a class="nav-link" href="">Advanced Search</a>
             </li>
@@ -64,19 +61,22 @@
         {% comment %} <h1 class="my-4"><small>Communities</small></h1> {% endcomment %}
         <br></br>
         <!-- Blog Post -->
-        {% for post_object in all_post_objects %}
+
           <div class="card mb-4">
             <div class="card-body">
               <h2 class="card-title">{{ post_object.post_object_name}}</h2>
-              <p class="card-text">Post Object Description :  {{ post_object.post_object_description}}</p>
+              <p class="card-text"> Post Object Description :  {{ post_object.post_object_description}}</p>
               <p class="card-text2">Post Object Tag : {{ post_object.post_object_tag }}</p>
-              <a href="#" class="btn btn-primary"> Go To Post Details &rarr;</a>
+
+        {% for data in data_fields %}
+        <p class="card-text2">{{ data.fieldlabel }} : {{ data.field }}</p>
+        {% endfor %}
             </div>
             <div class="card-footer text-muted">
                Created By : {{post_object.post_object_owner}} &nbsp;&nbsp;&nbsp;&nbsp;Created On : {{post_object.post_object_creation_date}}
             </div>
           </div>
-        {% endfor %}
+
 
         <!-- Pagination -->
         <ul class="pagination justify-content-center mb-4">
@@ -108,9 +108,9 @@
         <div class="card my-4">
           <h5 class="card-header">You Are In</h5>
           <div class="card-body">
-          <small>Post Type Title :</small> <strong><i>{{post.post_title}}</i></strong> <br></br>
-          <small>Post Type Description :</small><strong><i>{{post.post_description}}</i></strong><br></br> 
-          <small>Post Type Tag :</small> <strong><i>{{post.post_tag}}</i></strong> 
+          <small>Post Title :</small> <strong><i>{{postobject.post_object_title}}</i></strong> <br></br>
+          <small>Post Description :</small><strong><i>{{postobject.post_object_description}}</i></strong><br></br> 
+          <small>Post Tag :</small> <strong><i>{{postobject.post_object_tag}}</i></strong> 
           </div>
         </div>
       </div>
