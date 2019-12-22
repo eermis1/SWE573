@@ -28,7 +28,7 @@ class Community(models.Model):
     # Note
     # Model Post represents Post Type
     # Model PostObject represents Post in the requirements
-
+# ------------------------------------------------------------------------------------------------------------
 class Post(models.Model):
     community = models.ForeignKey(Community, on_delete=models.CASCADE)
     post_title = models.CharField(max_length=100)

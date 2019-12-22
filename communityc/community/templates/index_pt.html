@@ -70,7 +70,7 @@
               <h2 class="card-title">{{ post_type.post_title}}</h2>
               <p class="card-text">Post Type Description : {{ post_type.post_description}}</p>
               <p class="card-text2">Post Type Tag : {{ post_type.post_tag }}</p>
-              <a href="{% url "community:posttype_postobject_detail" post_type.id %}" class="btn btn-primary"> Go To Post Types &rarr;</a>
+              <a href="{% url "community:posttype_postobject_detail" post_type.id %}" class="btn btn-primary"> Go To Posts &rarr;</a>
             </div>
             <div class="card-footer text-muted">
                Created By : {{post_type.post_owner}} &nbsp;&nbsp;&nbsp;&nbsp;Created On : {{post_type.post_creation_date}}
