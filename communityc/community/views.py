@@ -2,7 +2,7 @@ from django.views.generic import (CreateView, DetailView, ListView, UpdateView, 
 from django.http import Http404, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Community, Post, CommunityMembership, PostObject
-from .forms import CommunityCreateForm, PostTypeCreateForm, UserRegistrationForm, CommunityMembershipForm,PostObjectCreateForm
+from .forms import CommunityCreateForm, PostTypeCreateForm, UserRegistrationForm, CommunityMembershipForm,PostObjectCreateForm, CommunityEditForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.utils import timezone
@@ -82,7 +82,7 @@ class CommunityDetailView(DetailView):
     def get_queryset(self):
         return Community.objects.all()
 
-#----------------------------------------------------- Create Vievs -----------------------------------------------------------
+#----------------------------------------------------- Create/Edit Vievs -----------------------------------------------------------
 # To Do Community Edit
 
 def CommunityCreate(request):
@@ -147,6 +147,26 @@ def PostTypeObjectCreate(request, post_id):
             form = PostObjectCreateForm()
         return render(request, 'posttypeobject_form.html', {'form': form, 'post_type': post_type, "data_fields": data_fields})
     else:
+        return render(request, 'user_login.html', {})
+
+
+def CommunityEdit(request, community_id):
+    if request.user.is_authenticated:
+        community = get_object_or_404(Community, pk=community_id)
+        object = Community.objects.get(pk=community_id)
+        form = CommunityEditForm(instance=object)
+        community_user = Community.objects.get(pk=community_id).user
+        if request.user == community_user:
+            if request.method == "POST":
+                form = CommunityEditForm(request.POST, instance=object)
+                Community = form.save(commit=False)
+                Community.save()
+                return redirect('community:homepage')
+            return render (request, "community_form.html", {'form': form})
+        else:
+            all_communities = Community.objects.order_by("-community_creation_date")
+            return render (request, "index.html",  {"error_message":"You are not autherizaed to change this community", 'community':community})
+    else:    
         return render(request, 'user_login.html', {})
 
 def AddSemanticTag(request):

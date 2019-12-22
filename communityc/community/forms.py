@@ -28,3 +28,8 @@ class PostObjectCreateForm(forms.ModelForm):
     class Meta:
         model = PostObject
         fields = ["post_object_name", "post_object_description", "post_object_tag"]
+
+class CommunityEditForm(forms.ModelForm):
+    class Meta:
+        model = Community
+        fields = ["community_name", "community_description","community_tag"]

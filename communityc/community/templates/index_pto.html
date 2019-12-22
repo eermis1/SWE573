@@ -71,7 +71,7 @@
               <p class="card-text">Post Object Description :  {{ post_object.post_object_description}}</p>
               <p class="card-text2">Post Object Tag : {{ post_object.post_object_tag }}</p>
             {% for data in data_fields %}
-            <p class="card-text2"> Field Type: {{ data.fieldtype }} &nbsp; Field Label : {{ data.fieldlabel }} </p>
+            <p class="card-text2"> Field Type: <strong>{{ data.fieldtype }}</strong> &nbsp; Field Label : <strong>{{ data.fieldlabel }}</strong> </p>
             {% endfor %}              
               {% comment %} <a href="{% url 'community:postobject_detail' pk=post_object.pk %}" class="btn btn-primary"> Go To Post Details &rarr;</a> {% endcomment %}
             </div>
