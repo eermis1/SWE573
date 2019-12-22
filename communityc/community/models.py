@@ -55,7 +55,7 @@ class PostObject(models.Model):
     data_fields = JSONField(default="")
 
     def get_absolute_url(self):
-         return reverse('community:postobject_detail"', kwargs={"pk" : self.pk})
+         return reverse('community:postobject_detail', kwargs={"pk" : self.pk})
 
     def __str__(self):
         return ("\n Post Object id = " + str(self.id) + "\n Post Object Name = " + str(self.post_object_name) + 

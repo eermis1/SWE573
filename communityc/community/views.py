@@ -41,9 +41,9 @@ class Community_PostType_DetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
-        context = super().get_context_data(**kwargs)
+        context = super(Community_PostType_DetailView, self).get_context_data(**kwargs)
         #Search availability for Post Type Detail page       
-        post_types = Post.objects.order_by("-post_creation_date")
+        post_types = Post.objects.filter(community=self.object).order_by("-post_creation_date")
         query = self.request.GET.get("q")
         if query:
             post_types = post_types.filter(Q(post_title__icontains=query) |
@@ -61,7 +61,7 @@ class PostType_PostObject_DetailView(DetailView):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         #Search availability for Post Object Detail page       
-        all_post_objects = PostObject.objects.order_by("-post_object_creation_date")
+        all_post_objects = PostObject.objects.filter(post=self.object).order_by("-post_object_creation_date")
         query = self.request.GET.get("q")
         if query:
             all_post_objects = all_post_objects.filter(Q(post_object_name__icontains=query) |
@@ -70,13 +70,14 @@ class PostType_PostObject_DetailView(DetailView):
         context["all_post_objects"] = all_post_objects
         return context
 
-def PostObjectDetailView (request, postobject_id):
+def PostObjectDetailView(request, postobject_id):
     
     post_object_detail = get_object_or_404(PostObject, pk=postobject_id)
     tmpObj = serializers.serialize("json", PostObject.objects.filter(pk=postobject_id).only('data_fields'))
     a = json.loads(tmpObj)
     data_fields = json.loads(a[0]["fields"]["data_fields"])
-    return render(request, 'index_ptod.html', {'post_object_detail ': post_object_detail, "data_fields": data_fields})
+    return render(request, 'index_ptod.html', {'post_object_detail': post_object_detail, "data_fields": data_fields})
+
 
 class CommunityDetailView(DetailView):
     model = Community #Primary Key of Lists --> Community. primary key olduğunu hep model ile belirtiyoruz

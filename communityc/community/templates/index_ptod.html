@@ -60,23 +60,22 @@
       <div class="col-md-8">
         {% comment %} <h1 class="my-4"><small>Communities</small></h1> {% endcomment %}
         <br></br>
+
         <!-- Blog Post -->
-
-          <div class="card mb-4">
-            <div class="card-body">
-              <h2 class="card-title">{{ post_object.post_object_name}}</h2>
-              <p class="card-text"> Post Object Description :  {{ post_object.post_object_description}}</p>
-              <p class="card-text2">Post Object Tag : {{ post_object.post_object_tag }}</p>
-
-        {% for data in data_fields %}
-        <p class="card-text2">{{ data.fieldlabel }} : {{ data.field }}</p>
-        {% endfor %}
+            <div class="card mb-4">
+              <div class="card-body">
+                <h2 class="card-title">{{postobject.post_object_name}}</h2>
+                <p class="card-text"> Post Object Description :  {{post.post_object_description}}</p>
+                <p class="card-text2">Post Object Tag : {{post.post_object_tag }}</p>
+  
+          {% for data in data_fields %}
+          <p class="card-text2"> Field Type: {{ data.fieldtype }} &nbsp; Field Label : {{ data.fieldlabel }} </p>
+          {% endfor %}
+              </div>
+              <div class="card-footer text-muted">
+                Created By : {{post_object.post_object_owner}} &nbsp;&nbsp;&nbsp;&nbsp;Created On : {{post_object.post_object_creation_date}}
+              </div>
             </div>
-            <div class="card-footer text-muted">
-               Created By : {{post_object.post_object_owner}} &nbsp;&nbsp;&nbsp;&nbsp;Created On : {{post_object.post_object_creation_date}}
-            </div>
-          </div>
-
 
         <!-- Pagination -->
         <ul class="pagination justify-content-center mb-4">
@@ -108,7 +107,7 @@
         <div class="card my-4">
           <h5 class="card-header">You Are In</h5>
           <div class="card-body">
-          <small>Post Title :</small> <strong><i>{{postobject.post_object_title}}</i></strong> <br></br>
+          <small>Post Title :</small> <strong><i>{{postobject.post_object_name}}</i></strong> <br></br>
           <small>Post Description :</small><strong><i>{{postobject.post_object_description}}</i></strong><br></br> 
           <small>Post Tag :</small> <strong><i>{{postobject.post_object_tag}}</i></strong> 
           </div>
