@@ -70,13 +70,13 @@ class PostType_PostObject_DetailView(DetailView):
         context["all_post_objects"] = all_post_objects
         return context
 
-def PostObjectListView (request, postobject_id):
+# def PostObjectListView (request, postobject_id):
     
-    all_post_objects = PostObject.objects.all()
-    tmpObj = serializers.serialize("json", PostObject.objects.filter(pk=postobject_id).only('data_fields'))
-    a = json.loads(tmpObj)
-    data_fields = json.loads(a[0]["fields"]["data_fields"])
-    return render(request, 'index_pto.html', {'all_post_objects': all_post_objects, "data_fields": data_fields})
+#     all_post_objects = PostObject.objects.all()
+#     tmpObj = serializers.serialize("json", PostObject.objects.filter(pk=postobject_id).only('data_fields'))
+#     a = json.loads(tmpObj)
+#     data_fields = json.loads(a[0]["fields"]["data_fields"])
+#     return render(request, 'index_pto.html', {'all_post_objects': all_post_objects, "data_fields": data_fields})
 
 
 class CommunityDetailView(DetailView):
