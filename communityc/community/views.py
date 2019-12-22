@@ -1,14 +1,23 @@
 from django.views.generic import (CreateView, DetailView, ListView, UpdateView, DeleteView, View)
 from django.http import Http404, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Community, Post, CommunityMembership
-from .forms import CommunityCreateForm, PostTypeCreateForm, UserRegistrationForm, CommunityMembershipForm
+from .models import Community, Post, CommunityMembership, PostObject
+from .forms import CommunityCreateForm, PostTypeCreateForm, UserRegistrationForm, CommunityMembershipForm,PostObjectCreateForm, CommunityEditForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.utils import timezone
+from django.core import serializers
+from .serializers import post_type_serializer
 import datetime
 from django.db.models import Q
+import json
+import requests
 
+# Generic Note
+# Model Post represents Post Type
+# Model PostObject represents Post in the requirements
+
+#----------------------------------------------------- List / Index / Detail Views -----------------------------------------------------------
 class CommunityListView(ListView): 
 
     context_object_name = "all_communities" 
@@ -26,15 +35,16 @@ class CommunityListView(ListView):
         return communities
    
 class Community_PostType_DetailView(DetailView):
+    # This View Enables To List All Post Types According To Specified Community
     model = Community
     #context_object_name = "all_post_types"
     template_name = "index_pt.html"
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
-        context = super().get_context_data(**kwargs)
+        context = super(Community_PostType_DetailView, self).get_context_data(**kwargs)
         #Search availability for Post Type Detail page       
-        post_types = Post.objects.all()
+        post_types = Post.objects.filter(community=self.object).order_by("-post_creation_date")
         query = self.request.GET.get("q")
         if query:
             post_types = post_types.filter(Q(post_title__icontains=query) |
@@ -43,12 +53,37 @@ class Community_PostType_DetailView(DetailView):
         context["all_post_types"] = post_types
         return context
 
+class PostType_PostObject_DetailView(DetailView):
+    # This View Enables To List All Post Objects According To Specified Post Type
+    model = Post
+    template_name = "index_pto.html"
+    
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(PostType_PostObject_DetailView, self).get_context_data(**kwargs)
+        #Search availability for Post Object Detail page       
+        all_post_objects = PostObject.objects.filter(post=self.object).order_by("-post_object_creation_date")
+        tmpObj = serializers.serialize("json", PostObject.objects.filter(post=self.object).only('data_fields'))
+        a = json.loads(tmpObj)
+        data_fields = json.loads(a[0]["fields"]["data_fields"])
+        query = self.request.GET.get("q")
+        if query:
+            all_post_objects = all_post_objects.filter(Q(post_object_name__icontains=query) |
+                                                       Q(post_object_description__icontains=query) |
+                                                       Q(post_object_tag__icontains=query)).distinct()
+        context["all_post_objects"] = all_post_objects
+        context["data_fields"] = data_fields
+        return context
+
 class CommunityDetailView(DetailView):
     model = Community #Primary Key of Lists --> Community. primary key olduğunu hep model ile belirtiyoruz
     template_name = "community_detail.html"
     
     def get_queryset(self):
         return Community.objects.all()
+
+#----------------------------------------------------- Create/Edit Vievs -----------------------------------------------------------
+# To Do Community Edit
 
 def CommunityCreate(request):
     # To Overcome Simple Lazy Object Error We Used Auhentication Check Before Community Creation
@@ -82,14 +117,57 @@ def PostTypeCreate(request, community_id):
                 jsonfield = request.POST.get("fieldJson")
                 Post.formfield = jsonfield
                 Post.save()
-                return HttpResponse("Success")
-            return HttpResponse("Success")
+                return redirect("community:homepage")
+            return redirect("community:homepage")
         else:
             form = PostTypeCreateForm()
         return render(request, "posttype_form.html", {"form" : form})
     else:
          return render(request, 'user_login.html', {})
 
+def PostTypeObjectCreate(request, post_id):
+
+    post_type = get_object_or_404(Post,pk=post_id)
+    if request.user.is_authenticated:
+        tmpObj = serializers.serialize("json", Post.objects.filter(pk=post_id).only('formfield'))
+        a = json.loads(tmpObj)
+        data_fields = json.loads(a[0]["fields"]["formfield"])
+        if request.method == 'POST':
+            form = PostObjectCreateForm(request.POST)
+            if form.is_valid():
+                PostObject = form.save(commit=False)
+                PostObject.post = post_type
+                PostObject.post_object_owner = request.user
+                jsonfields = request.POST.get('fieldJsonpost')
+                PostObject.data_fields = jsonfields
+                PostObject.save()
+                HttpResponse("success") #To Be Changed
+            return render(request, 'posttypeobject_form.html', {'form': form})
+        else:
+            form = PostObjectCreateForm()
+        return render(request, 'posttypeobject_form.html', {'form': form, 'post_type': post_type, "data_fields": data_fields})
+    else:
+        return render(request, 'user_login.html', {})
+
+
+def CommunityEdit(request, community_id):
+    if request.user.is_authenticated:
+        community = get_object_or_404(Community, pk=community_id)
+        object = Community.objects.get(pk=community_id)
+        form = CommunityEditForm(instance=object)
+        community_user = Community.objects.get(pk=community_id).user
+        if request.user == community_user:
+            if request.method == "POST":
+                form = CommunityEditForm(request.POST, instance=object)
+                Community = form.save(commit=False)
+                Community.save()
+                return redirect('community:homepage')
+            return render (request, "community_form.html", {'form': form})
+        else:
+            all_communities = Community.objects.order_by("-community_creation_date")
+            return render (request, "index.html",  {"error_message":"You are not autherizaed to change this community", 'community':community})
+    else:    
+        return render(request, 'user_login.html', {})
 
 def AddSemanticTag(request):
     tag = [] #Create Empty List
@@ -121,17 +199,19 @@ def AddSemanticTag(request):
 
     return render(request, "wikidata.html",{"tag":tag})
 
+#-------------------------------------------------- Search & Join -------------------------------------------------------------
 
 def Advanced_Search(request):
     #Load all data 
     communities  = Community.objects.order_by("-community_creation_date")
-    post_types  = Post.objects.all() # order by creation date to be added
-    #post to be added
+    post_types  = Post.objects.order_by("-post_creation_date")
+    post_objects = PostObject.objects.order_by("-post_object_creation_date")
 
     #Get items to be searched
     query_all = request.GET.get('q_all')
     query_community = request.GET.get('q_com')
     query_posttype = request.GET.get('q_posttype')
+    query_postobjects = request.GET.get('q_postobj')
 
     #Query Them
     if query_all:
@@ -157,7 +237,12 @@ def Advanced_Search(request):
                                        Q(post_tag__icontains=query_posttype)).distinct()
         return render(request, "search.html", {"post_types":post_types})
 
-    return render(request, "search.html", {"communities":communities, "post_types":post_types})
+    if query_postobjects :
+        post_objects = post_objects.filter(Q(post_object_name__icontains=query_postobjects ) |
+                                           Q(post_object_description__icontains=query_postobjects ) |
+                                           Q(post_object_tag__icontains=query_postobjects )).distinct() 
+
+    return render(request, "search.html", {"communities":communities, "post_types":post_types, "post_objects":post_objects})
 
 def Join_Communities(request, community_id):
     all_communities = Community.objects.order_by("-community_creation_date")
@@ -186,7 +271,7 @@ def Join_Communities(request, community_id):
 #         context = super().get_context_data(**kwargs)
 #         context["all_community"] = Communty.objects.all()
 #         return context
-#-------------------------------------User Registration / Loging / Logout Processes--------------------------------------
+#------------------------------------- User Registration / Loging / Logout Processes --------------------------------------
 
 def UserRegistration(request):
     form = UserRegistrationForm(request.POST or None)

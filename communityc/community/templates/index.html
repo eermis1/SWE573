@@ -72,7 +72,7 @@
               <h2 class="card-title">{{ community.community_name }}</h2>
               <p class="card-text">Community Description : {{ community.community_description }}</p>
               <p class="card-text2">Community Tag : {{ community.community_tag }}</p>
-              <a href="{% url "community:community_posttype_detail" community.id %}" class="btn btn-primary"> Go To Posts &rarr;</a>
+              <a href="{% url "community:community_posttype_detail" community.id %}" class="btn btn-primary"> Go To Post Types &rarr;</a>
               <a href="{% url "community:join" community.id %}" class="btn btn-primary"> Join!</a>
             </div>
             <div class="card-footer text-muted">
