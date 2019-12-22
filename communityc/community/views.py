@@ -184,13 +184,14 @@ def AddSemanticTag(request):
 def Advanced_Search(request):
     #Load all data 
     communities  = Community.objects.order_by("-community_creation_date")
-    post_types  = Post.objects.all() # order by creation date to be added
-    #post to be added
+    post_types  = Post.objects.order_by("-post_creation_date")
+    post_objects = PostObject.objects.order_by("-post_object_creation_date")
 
     #Get items to be searched
     query_all = request.GET.get('q_all')
     query_community = request.GET.get('q_com')
     query_posttype = request.GET.get('q_posttype')
+    query_postobjects = request.GET.get('q_postobj')
 
     #Query Them
     if query_all:
@@ -216,7 +217,12 @@ def Advanced_Search(request):
                                        Q(post_tag__icontains=query_posttype)).distinct()
         return render(request, "search.html", {"post_types":post_types})
 
-    return render(request, "search.html", {"communities":communities, "post_types":post_types})
+    if query_postobjects :
+        post_objects = post_objects.filter(Q(post_object_name__icontains=query_postobjects ) |
+                                           Q(post_object_description__icontains=query_postobjects ) |
+                                           Q(post_object_tag__icontains=query_postobjects )).distinct() 
+
+    return render(request, "search.html", {"communities":communities, "post_types":post_types, "post_objects":post_objects})
 
 def Join_Communities(request, community_id):
     all_communities = Community.objects.order_by("-community_creation_date")
