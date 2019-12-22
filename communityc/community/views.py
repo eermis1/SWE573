@@ -11,6 +11,7 @@ from .serializers import post_type_serializer
 import datetime
 from django.db.models import Q
 import json
+import requests
 
 # Generic Note
 # Model Post represents Post Type
@@ -59,25 +60,20 @@ class PostType_PostObject_DetailView(DetailView):
     
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
-        context = super().get_context_data(**kwargs)
+        context = super(PostType_PostObject_DetailView, self).get_context_data(**kwargs)
         #Search availability for Post Object Detail page       
         all_post_objects = PostObject.objects.filter(post=self.object).order_by("-post_object_creation_date")
+        tmpObj = serializers.serialize("json", PostObject.objects.filter(post=self.object).only('data_fields'))
+        a = json.loads(tmpObj)
+        data_fields = json.loads(a[0]["fields"]["data_fields"])
         query = self.request.GET.get("q")
         if query:
             all_post_objects = all_post_objects.filter(Q(post_object_name__icontains=query) |
                                                        Q(post_object_description__icontains=query) |
                                                        Q(post_object_tag__icontains=query)).distinct()
         context["all_post_objects"] = all_post_objects
+        context["data_fields"] = data_fields
         return context
-
-def PostObjectDetailView(request, postobject_id):
-    
-    post_object_detail = get_object_or_404(PostObject, pk=postobject_id)
-    tmpObj = serializers.serialize("json", PostObject.objects.filter(pk=postobject_id).only('data_fields'))
-    a = json.loads(tmpObj)
-    data_fields = json.loads(a[0]["fields"]["data_fields"])
-    return render(request, 'index_ptod.html', {'post_object_detail': post_object_detail, "data_fields": data_fields})
-
 
 class CommunityDetailView(DetailView):
     model = Community #Primary Key of Lists --> Community. primary key olduğunu hep model ile belirtiyoruz
@@ -121,8 +117,8 @@ def PostTypeCreate(request, community_id):
                 jsonfield = request.POST.get("fieldJson")
                 Post.formfield = jsonfield
                 Post.save()
-                return HttpResponse("Success")
-            return HttpResponse("Success")
+                return redirect("community:homepage")
+            return redirect("community:homepage")
         else:
             form = PostTypeCreateForm()
         return render(request, "posttype_form.html", {"form" : form})

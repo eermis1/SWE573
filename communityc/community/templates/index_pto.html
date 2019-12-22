@@ -30,9 +30,9 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'community:homepage'%}">Home</a>
             </li>
-            {% comment %} <li class="nav-item active">
+             <li class="nav-item active">
               <a class="nav-link" href="{% url 'community:posttypeobject_create' post.id%}">Add Post Objects</a>
-            </li> {% endcomment %}
+            </li> 
               <li class="nav-item">
               <a class="nav-link" href="">Advanced Search</a>
             </li>
@@ -70,7 +70,10 @@
               <h2 class="card-title">{{ post_object.post_object_name}}</h2>
               <p class="card-text">Post Object Description :  {{ post_object.post_object_description}}</p>
               <p class="card-text2">Post Object Tag : {{ post_object.post_object_tag }}</p>
-              <a href="#" class="btn btn-primary"> Go To Post Details &rarr;</a>
+            {% for data in data_fields %}
+            <p class="card-text2"> Field Type: {{ data.fieldtype }} &nbsp; Field Label : {{ data.fieldlabel }} </p>
+            {% endfor %}              
+              {% comment %} <a href="{% url 'community:postobject_detail' pk=post_object.pk %}" class="btn btn-primary"> Go To Post Details &rarr;</a> {% endcomment %}
             </div>
             <div class="card-footer text-muted">
                Created By : {{post_object.post_object_owner}} &nbsp;&nbsp;&nbsp;&nbsp;Created On : {{post_object.post_object_creation_date}}
