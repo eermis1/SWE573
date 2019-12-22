@@ -1,14 +1,18 @@
 from django.views.generic import (CreateView, DetailView, ListView, UpdateView, DeleteView, View)
 from django.http import Http404, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Community, Post, CommunityMembership
-from .forms import CommunityCreateForm, PostTypeCreateForm, UserRegistrationForm, CommunityMembershipForm
+from .models import Community, Post, CommunityMembership, PostObject
+from .forms import CommunityCreateForm, PostTypeCreateForm, UserRegistrationForm, CommunityMembershipForm,PostObjectCreateForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.utils import timezone
+from django.core import serializers
+from .serializers import post_type_serializer
 import datetime
 from django.db.models import Q
+import json
 
+#-----------------------------------------------------List / Index Views-----------------------------------------------------------
 class CommunityListView(ListView): 
 
     context_object_name = "all_communities" 
@@ -50,6 +54,8 @@ class CommunityDetailView(DetailView):
     def get_queryset(self):
         return Community.objects.all()
 
+#----------------------------------------------------- Create Vievs -----------------------------------------------------------
+
 def CommunityCreate(request):
     # To Overcome Simple Lazy Object Error We Used Auhentication Check Before Community Creation
     # In Principle If A User Wants To Build A Community He/She Has To Loggin or Register First
@@ -90,6 +96,31 @@ def PostTypeCreate(request, community_id):
     else:
          return render(request, 'user_login.html', {})
 
+def PostTypeObjectCreate(request, post_id):
+    # Note
+    # Model Post represents Post Type
+    # Model PostObject represents Post in the requirements
+    post_type = get_object_or_404(Post,pk=post_id)
+    if request.user.is_authenticated:
+        tmpObj = serializers.serialize("json", Post.objects.filter(pk=post_id).only('formfield'))
+        a = json.loads(tmpObj)
+        data_fields = json.loads(a[0]["fields"]["formfield"])
+        if request.method == 'POST':
+            form = PostObjectCreateForm(request.POST)
+            if form.is_valid():
+                PostObject = form.save(commit=False)
+                PostObject.post = post_type
+                PostObject.post_object_owner = request.user
+                jsonfields = request.POST.get('fieldJsonpost')
+                PostObject.data_fields = jsonfields
+                PostObject.save()
+                HttpResponse("success") #To Be Changed
+            return render(request, 'posttypeobject_form.html', {'form': form})
+        else:
+            form = PostObjectCreateForm()
+        return render(request, 'posttypeobject_form.html', {'form': form, 'post_type': post_type, "data_fields": data_fields})
+    else:
+        return render(request, 'user_login.html', {})
 
 def AddSemanticTag(request):
     tag = [] #Create Empty List
@@ -121,6 +152,7 @@ def AddSemanticTag(request):
 
     return render(request, "wikidata.html",{"tag":tag})
 
+#-------------------------------------------------- Search & Join -------------------------------------------------------------
 
 def Advanced_Search(request):
     #Load all data 
@@ -186,7 +218,7 @@ def Join_Communities(request, community_id):
 #         context = super().get_context_data(**kwargs)
 #         context["all_community"] = Communty.objects.all()
 #         return context
-#-------------------------------------User Registration / Loging / Logout Processes--------------------------------------
+#------------------------------------- User Registration / Loging / Logout Processes --------------------------------------
 
 def UserRegistration(request):
     form = UserRegistrationForm(request.POST or None)

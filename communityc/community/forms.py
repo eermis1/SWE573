@@ -1,5 +1,5 @@
 from django import forms
-from .models import (Community, Post, CommunityMembership)
+from .models import (Community, Post, CommunityMembership, PostObject)
 from django.contrib.auth.models import User
 
 
@@ -23,3 +23,8 @@ class CommunityMembershipForm (forms.ModelForm):
     class Meta:
         model = CommunityMembership
         fields = []
+
+class PostObjectCreateForm(forms.ModelForm):
+    class Meta:
+        model = PostObject
+        fields = ["post_object_name", "post_object_description", "post_object_tag"]

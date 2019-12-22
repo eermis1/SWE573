@@ -14,5 +14,6 @@ urlpatterns = [
     path('<pk>/', views.Community_PostType_DetailView.as_view(), name="community_posttype_detail"), 
     # path("mycommunities/<int:user_id>", views.MyCommunities.as_view(), name="my_communities"), #Joined Communities
     path('community/add/', views.CommunityCreate, name="community_create"), #Community Create URL
-    path('posttype/add/<int:community_id>', views.PostTypeCreate, name="posttype_create") #Post Type Create URl  
+    path('posttype/add/<int:community_id>', views.PostTypeCreate, name="posttype_create"), #Post Type Create URl  
+    path('posttypeobject/add/<int:post_id>', views.PostTypeObjectCreate, name="posttypeobject_create") #Post Type Object / Post Create URL
 ]
