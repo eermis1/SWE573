@@ -67,9 +67,9 @@
         {% for post_object in all_post_objects %}
           <div class="card mb-4">
             <div class="card-body">
-              <h2 class="card-title">{{ post_object.post_object_title}}</h2>
-              <p class="card-text">Post Type Description {{ post_object.post_object_description}}</p>
-              <p class="card-text2">Post Type Tag : {{ post_object.post_object_tag }}</p>
+              <h2 class="card-title">{{ post_object.post_object_name}}</h2>
+              <p class="card-text">Post Object Description :  {{ post_object.post_object_description}}</p>
+              <p class="card-text2">Post Object Tag : {{ post_object.post_object_tag }}</p>
               <a href="#" class="btn btn-primary"> Go To Posts &rarr;</a>
             </div>
             <div class="card-footer text-muted">

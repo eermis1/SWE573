@@ -43,7 +43,7 @@ class Community_PostType_DetailView(DetailView):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         #Search availability for Post Type Detail page       
-        post_types = Post.objects.all()
+        post_types = Post.objects.order_by("-post_creation_date")
         query = self.request.GET.get("q")
         if query:
             post_types = post_types.filter(Q(post_title__icontains=query) |
@@ -61,7 +61,7 @@ class PostType_PostObject_DetailView(DetailView):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         #Search availability for Post Object Detail page       
-        all_post_objects = PostObject.objects.all()
+        all_post_objects = PostObject.objects.order_by("-post_object_creation_date")
         query = self.request.GET.get("q")
         if query:
             all_post_objects = all_post_objects.filter(Q(post_object_name__icontains=query) |
