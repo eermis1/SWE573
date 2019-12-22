@@ -12,7 +12,11 @@ import datetime
 from django.db.models import Q
 import json
 
-#-----------------------------------------------------List / Index Views-----------------------------------------------------------
+# Generic Note
+# Model Post represents Post Type
+# Model PostObject represents Post in the requirements
+
+#----------------------------------------------------- List / Index / Detail Views -----------------------------------------------------------
 class CommunityListView(ListView): 
 
     context_object_name = "all_communities" 
@@ -30,6 +34,7 @@ class CommunityListView(ListView):
         return communities
    
 class Community_PostType_DetailView(DetailView):
+    # This View Enables To List All Post Types According To Specified Community
     model = Community
     #context_object_name = "all_post_types"
     template_name = "index_pt.html"
@@ -47,6 +52,33 @@ class Community_PostType_DetailView(DetailView):
         context["all_post_types"] = post_types
         return context
 
+class PostType_PostObject_DetailView(DetailView):
+    # This View Enables To List All Post Objects According To Specified Post Type
+    model = Post
+    template_name = "index_pto.html"
+    
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        #Search availability for Post Object Detail page       
+        all_post_objects = PostObject.objects.all()
+        query = self.request.GET.get("q")
+        if query:
+            all_post_objects = all_post_objects.filter(Q(post_object_name__icontains=query) |
+                                                       Q(post_object_description__icontains=query) |
+                                                       Q(post_object_tag__icontains=query)).distinct()
+        context["all_post_objects"] = all_post_objects
+        return context
+
+def PostObjectListView (request, postobject_id):
+    
+    all_post_objects = PostObject.objects.all()
+    tmpObj = serializers.serialize("json", PostObject.objects.filter(pk=postobject_id).only('data_fields'))
+    a = json.loads(tmpObj)
+    data_fields = json.loads(a[0]["fields"]["data_fields"])
+    return render(request, 'index_pto.html', {'all_post_objects': all_post_objects, "data_fields": data_fields})
+
+
 class CommunityDetailView(DetailView):
     model = Community #Primary Key of Lists --> Community. primary key olduğunu hep model ile belirtiyoruz
     template_name = "community_detail.html"
@@ -55,6 +87,7 @@ class CommunityDetailView(DetailView):
         return Community.objects.all()
 
 #----------------------------------------------------- Create Vievs -----------------------------------------------------------
+# To Do Community Edit
 
 def CommunityCreate(request):
     # To Overcome Simple Lazy Object Error We Used Auhentication Check Before Community Creation
@@ -97,9 +130,7 @@ def PostTypeCreate(request, community_id):
          return render(request, 'user_login.html', {})
 
 def PostTypeObjectCreate(request, post_id):
-    # Note
-    # Model Post represents Post Type
-    # Model PostObject represents Post in the requirements
+
     post_type = get_object_or_404(Post,pk=post_id)
     if request.user.is_authenticated:
         tmpObj = serializers.serialize("json", Post.objects.filter(pk=post_id).only('formfield'))

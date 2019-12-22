@@ -38,6 +38,9 @@ class Post(models.Model):
     post_creation_date = models.DateTimeField(auto_now_add=True, blank=True, null = True)
     formfield = JSONField(default = "") #The Additional/Customizable Data Fields To Be Stored In This Field
 
+    def get_absolute_url(self):
+         return reverse('community:posttype_postobject_detail', kwargs={"pk" : self.pk})
+
     def __str__ (self):
         return ("\nPost id : " + str(self.id) + "\nPost Title : " + self.post_title +  "\nPost Description : " + self.post_description +  "\nPost Tag : "  
                 + self.post_tag + "\nForm Field:" + str(self.formfield) + "\nPost Community id : " + str(self.community))
