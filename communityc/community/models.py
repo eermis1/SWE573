@@ -41,8 +41,6 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('community:posttype_postobject_detail', kwargs={"pk" : self.pk})
 
-    def get_absolute_url(self):
-       return reverse('community:postobject_detail', kwargs={"pk" : self.pk})
 
     def __str__ (self):
         return ("\nPost id : " + str(self.id) + "\nPost Title : " + self.post_title +  "\nPost Description : " + self.post_description +  "\nPost Tag : "  
