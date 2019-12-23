@@ -86,6 +86,38 @@ class CommunityDetailView(DetailView):
     def get_queryset(self):
         return Community.objects.all()
 
+class PostTypeListView(ListView): 
+
+    context_object_name = "all_post_types" 
+    template_name = "index_pt_all.html"
+    
+    def get_queryset(self):
+        #Sort Communities By Creation Date From Newest To Oldest
+        all_post_types  = Post.objects.order_by("-post_creation_date")
+        #3 Way Search Of Community
+        query = self.request.GET.get("q")
+        if query:
+            all_post_types = all_post_types.filter(Q(post_title__icontains=query) |
+                                                   Q(post_description__icontains=query) |
+                                                   Q(post_tag__icontains=query)).distinct()
+        return all_post_types
+
+class PostObjectListView(ListView): 
+
+    context_object_name = "all_post_objects" 
+    template_name = "index_pto_all.html"
+    
+    def get_queryset(self):
+        #Sort Communities By Creation Date From Newest To Oldest
+        all_post_objects  = PostObject.objects.order_by("-post_object_creation_date")
+        #3 Way Search Of Community
+        query = self.request.GET.get("q")
+        if query:
+            all_post_objects = all_post_objects.filter(Q(post_object_name__icontains=query) |
+                                                       Q(post_object_description__icontains=query) |
+                                                       Q(post_object_tag__icontains=query)).distinct() 
+        return all_post_objects
+
 #----------------------------------------------------- Create/Edit Vievs -----------------------------------------------------------
 # To Do Community Edit
 
@@ -121,8 +153,8 @@ def PostTypeCreate(request, community_id):
                 jsonfield = request.POST.get("fieldJson")
                 Post.formfield = jsonfield
                 Post.save()
-                return render(request, 'posttypeobject_form.html', {'form': form, "jsonfield" : jsonfield})
-            return render(request, 'posttypeobject_form.html', {'form': form})
+                return redirect("community:posttype_all")
+            return redirect("community:posttype_all")
         else:
             form = PostTypeCreateForm()
         return render(request, "posttype_form.html", {"form" : form})
@@ -145,8 +177,8 @@ def PostTypeObjectCreate(request, post_id):
                 jsonfields = request.POST.get('fieldJsonpost')
                 PostObject.data_fields = jsonfields
                 PostObject.save()
-                HttpResponse("success") #To Be Changed
-            return render(request, 'posttypeobject_form.html', {'form': form})
+                redirect("community:postobject_all")
+            return redirect("community:postobject_all")
         else:
             form = PostObjectCreateForm()
         return render(request, 'posttypeobject_form.html', {'form': form, 'post_type': post_type, "data_fields": data_fields})
@@ -159,12 +191,12 @@ def CommunityEdit(request, community_id):
         community = get_object_or_404(Community, pk=community_id)
         object = Community.objects.get(pk=community_id)
         form = CommunityEditForm(instance=object)
-        community_user = Community.objects.get(pk=community_id).user
+        community_user = Community.objects.get(pk=community_id).community_builder
         if request.user == community_user:
             if request.method == "POST":
                 form = CommunityEditForm(request.POST, instance=object)
-                Community = form.save(commit=False)
-                Community.save()
+                community = form.save(commit=False)
+                community.save()
                 return redirect('community:homepage')
             return render (request, "community_form.html", {'form': form})
         else:

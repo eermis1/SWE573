@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>CommunityCenter - Post Objects</title>
+  <title>CommunityCenter - Post Types</title>
   <!-- Bootstrap core CSS -->
   <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
   <!-- Custom styles for this template -->
@@ -27,8 +27,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-left">
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'community:homepage'%}">Home</a>
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'community:homepage'%}">Go Home</a>
+            </li>
               <li class="nav-item">
               <a class="nav-link" href="{% url 'community:advanced_search' %}">Advanced Search</a>
             </li>
@@ -60,20 +61,19 @@
         {% comment %} <h1 class="my-4"><small>Communities</small></h1> {% endcomment %}
         <br></br>
         <!-- Blog Post -->
+        {% for post_type in all_post_types %}
           <div class="card mb-4">
             <div class="card-body">
-              <h2 class="card-title">{{ post_list.post_object_name}}</h2>
-              <p class="card-text">Post Object Description :  {{ post_list.post_object_description}}</p>
-              <p class="card-text2">Post Object Tag : {{ post_list.post_object_tag }}</p>
-            {% for data in data_fields %}
-            <p class="card-text2"> Field Type: <strong>{{ data.fieldtype }}</strong> &nbsp; Field Label : <strong>{{ data.fieldlabel }}</strong> </p>
-            {% endfor %}              
-              {% comment %} <a href="{% url 'community:postobject_detail' pk=post_object.pk %}" class="btn btn-primary"> Go To Post Details &rarr;</a> {% endcomment %}
+              <h2 class="card-title">{{ post_type.post_title}}</h2>
+              <p class="card-text">Post Type Description : {{ post_type.post_description}}</p>
+              <p class="card-text2">Post Type Tag : {{ post_type.post_tag }}</p>
+              <a href="{% url "community:posttype_postobject_detail" post_type.id %}" class="btn btn-primary"> Go To Posts &rarr;</a>
             </div>
             <div class="card-footer text-muted">
-               Created By : {{post_list.post_object_owner}} &nbsp;&nbsp;&nbsp;&nbsp;Created On : {{post_list.post_object_creation_date}}
+               Created By : {{post_type.post_owner}} &nbsp;&nbsp;&nbsp;&nbsp;Created On : {{post_type.post_creation_date}}
             </div>
           </div>
+        {% endfor %}
 
         <!-- Pagination -->
         <ul class="pagination justify-content-center mb-4">
@@ -94,7 +94,7 @@
           <h5 class="card-header">Search</h5>
           <div class="card-body">
              <form method="get" action="">
-              <input class="form-control form-control-lg" type="text" name="q" id="q" placeholder="Search For Post Object.." value="{{ request.GET.q }}" >
+              <input class="form-control form-control-lg" type="text" name="q" id="q" placeholder="Search For Post Type.." value="{{ request.GET.q }}" >
               <p></p>
               <input type="submit" class="btn btn-primary"></button>
              </form> 
@@ -103,16 +103,15 @@
 
         <!-- Side Widget -->
         <div class="card my-4">
-          <h5 class="card-header">You Are In</h5>
+          <h5 class="card-header">Information</h5>
           <div class="card-body">
-          <small>Post Type Title :</small> <strong><i>{{post.post_title}}</i></strong> <br></br>
-          <small>Post Type Description :</small><strong><i>{{post.post_description}}</i></strong><br></br> 
-          <small>Post Type Tag :</small> <strong><i>{{post.post_tag}}</i></strong> 
+          Created By Evren Ermis For SWE 573 Software Development Practice
           </div>
         </div>
       </div>
     </div>
   </div>
+
 
   <!-- Footer -->
   <footer class="py-5 bg-dark">

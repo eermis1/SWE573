@@ -73,7 +73,7 @@
               <p class="card-text">Community Description : {{ community.community_description }}</p>
               <p class="card-text2">Community Tag : {{ community.community_tag }}</p>
               <a href="{% url "community:community_posttype_detail" community.id %}" class="btn btn-primary"> Go To Post Types &rarr;</a>
-              <a href="{% url "community:join" community.id %}" class="btn btn-primary"> Join!</a>
+              <a href="{% url "community:community_edit" community.id %}" class="btn btn-primary"> Edit </a>
             </div>
             <div class="card-footer text-muted">
                Created By : {{community.community_builder}} &nbsp;&nbsp;&nbsp;&nbsp;Created On : {{community.community_creation_date}}
