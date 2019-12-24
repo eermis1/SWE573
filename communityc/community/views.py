@@ -297,16 +297,6 @@ def Join_Communities(request, community_id):
 
     return(request, "index.html",{"all_communities":all_communities})
 
-# class MyCommunities(DetailView):
-#     model = CommunityMembership
-#     #context_object_name = "all_post_types"
-#     template_name = "index_html"
-
-#     def get_context_data(self, **kwargs):
-#         # Call the base implementation first to get a context
-#         context = super().get_context_data(**kwargs)
-#         context["all_community"] = Communty.objects.all()
-#         return context
 #------------------------------------- User Registration / Loging / Logout Processes --------------------------------------
 
 def UserRegistration(request):
