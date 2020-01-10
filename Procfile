@@ -1,1 +1,1 @@
-web: gunicorn SWE573:communityc.wsgi
+web: gunicorn communityc.wsgi
